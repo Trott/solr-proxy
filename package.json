@@ -1,0 +1,38 @@
+{
+  "name": "solr-proxy",
+  "description": "Reverse proxy to secure Solr, rejecting requests that might modify the Solr index.",
+  "keywords": [
+    "solr",
+    "security",
+    "ajax-solr",
+    "proxy"
+  ],
+  "version": "1.0.0",
+  "author": "Rich Trott <rtrott@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/Trott/solr-proxy/issues"
+  },
+  "main": "solr-proxy.js",
+  "scripts": {
+    "start": "node solr-proxy.js",
+    "test": "vows test/test-*.js --spec"
+  },
+  "bin": "./solr-proxy.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Trott/solr-proxy.git"
+  },
+  "dependencies": {
+    "http-proxy": "^1.10.1",
+    "optimist": "^0.6.1",
+    "util-extend": "^1.0.1"
+  },
+  "devDependencies": {
+    "request": "^2.55.0",
+    "vows": "^0.8.1"
+  },
+  "engines": {
+    "node": ">=0.10.38"
+  },
+  "license": "MIT"
+}
