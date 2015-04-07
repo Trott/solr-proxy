@@ -1,0 +1,45 @@
+{
+  "name": "solr-proxy",
+  "version": "1.0.0",
+  "dependencies": {
+    "http-proxy": {
+      "version": "1.10.1",
+      "from": "http-proxy@*",
+      "resolved": "https://registry.npmjs.org/http-proxy/-/http-proxy-1.10.1.tgz",
+      "dependencies": {
+        "eventemitter3": {
+          "version": "0.1.6",
+          "from": "eventemitter3@>=0.0.0 <1.0.0",
+          "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-0.1.6.tgz"
+        },
+        "requires-port": {
+          "version": "0.0.0",
+          "from": "requires-port@>=0.0.0 <1.0.0",
+          "resolved": "https://registry.npmjs.org/requires-port/-/requires-port-0.0.0.tgz"
+        }
+      }
+    },
+    "optimist": {
+      "version": "0.6.1",
+      "from": "optimist@*",
+      "resolved": "https://registry.npmjs.org/optimist/-/optimist-0.6.1.tgz",
+      "dependencies": {
+        "wordwrap": {
+          "version": "0.0.2",
+          "from": "wordwrap@>=0.0.2 <0.1.0",
+          "resolved": "https://registry.npmjs.org/wordwrap/-/wordwrap-0.0.2.tgz"
+        },
+        "minimist": {
+          "version": "0.0.10",
+          "from": "minimist@>=0.0.1 <0.1.0",
+          "resolved": "https://registry.npmjs.org/minimist/-/minimist-0.0.10.tgz"
+        }
+      }
+    },
+    "util-extend": {
+      "version": "1.0.1",
+      "from": "util-extend@",
+      "resolved": "https://registry.npmjs.org/util-extend/-/util-extend-1.0.1.tgz"
+    }
+  }
+}
