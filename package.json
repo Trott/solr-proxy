@@ -28,6 +28,8 @@
     "util-extend": "^1.0.1"
   },
   "devDependencies": {
+    "jshint": "^2.6.3",
+    "precommit-hook": "^2.0.1",
     "request": "^2.55.0",
     "vows": "^0.8.1"
   },

@@ -2,7 +2,6 @@
 
 var http = require('http'),
     httpProxy = require('http-proxy'),
-    util = require('util'),
     url = require('url'),
     optimist = require('optimist'),
     extend = require('util-extend'),
@@ -20,7 +19,7 @@ var validateRequest = function(request, options) {
       queryParams = Object.keys(parsedUrl.query);
 
   return options.validHttpMethods.indexOf(request.method) !== -1 &&
-         options.validPaths.indexOf(parsedUrl.pathname) !== -1 &&
+         options.validPaths.indexOf(path) !== -1 &&
          queryParams.every(function(p) {
            var paramPrefix = p.split('.')[0]; // invalidate not just "stream", but "stream.*"
            return options.invalidParams.indexOf(paramPrefix) === -1;
@@ -39,9 +38,6 @@ var defaultOptions = {
 };
 
 var createServer = function(options) {
-
-  console.log(options);
-
   var proxyTarget = 'http://' + options.backend.host + ':' + options.backend.port;
 
   var proxy = httpProxy.createProxyServer({target: proxyTarget});
@@ -57,12 +53,12 @@ var createServer = function(options) {
       proxy.web(request, response);
     } else {
       response.writeHead(403, 'Illegal request');
-      response.write("solrProxy: access denied\n");
+      response.write('solrProxy: access denied\n');
       response.end();
     }
   });
   return server;
-}
+};
 
 SolrProxy.start = function(port, options) {
   options.backend = extend(defaultOptions.backend, options.backend);
@@ -71,32 +67,33 @@ SolrProxy.start = function(port, options) {
   var server = createServer(options);
   server.listen(port);
   return server;
-}
+};
 
 // if invoked directly, (eg "node solr-proxy.js"), start automatically
 if (require.main === module) {
   // TODO: refactor these; write tests
   var options = {
-    'port':           { description: "Listen on this port", default: 8008},
-    'backendPort':   { description: "Solr backend port", default: 8080},
-    'backendHost':   { description: "Solr backend host", default: 'localhost'},
-    'validPaths':     { description: "Only allow these paths (comma separated)", default: '/solr/select'},
-    'invalidParams':  { description: "Block these query params (comma separated)", default: 'qt,stream'},
-    'validMethods': { description: "Allow these HTTP methods (comma separated)", default: 'GET,HEAD'},
-    'help':           { description: "Show usage", alias: 'h'},
+    'port':           { description: 'Listen on this port', default: 8008},
+    'backendPort':   { description: 'Solr backend port', default: 8080},
+    'backendHost':   { description: 'Solr backend host', default: 'localhost'},
+    'validPaths':     { description: 'Only allow these paths (comma separated)', default: '/solr/select'},
+    'invalidParams':  { description: 'Block these query params (comma separated)', default: 'qt,stream'},
+    'validMethods': { description: 'Allow these HTTP methods (comma separated)', default: 'GET,HEAD'},
+    'help':           { description: 'Show usage', alias: 'h'},
   };
-  var argv = optimist.usage('Usage: $0', options).argv
+
+  var argv = optimist.usage('Usage: $0', options).argv;
   if (argv.help) {
     optimist.showHelp();
   } else {
     var proxyOptions = {
       backend: { port: argv.backendPort, host:argv.backendHost},
-      validHttpMethods: argv.validMethods.split(","),
-      invalidParams: argv.invalidParams.split(","),
-      validPaths: argv.validPaths.split(",")
+      validHttpMethods: argv.validMethods.split(','),
+      invalidParams: argv.invalidParams.split(','),
+      validPaths: argv.validPaths.split(',')
     };
     SolrProxy.start(argv.port, proxyOptions);
-    console.log("solr-proxy: localhost:" + argv.port + " --> " + argv.backendHost + ":" + argv.backendPort);
+    console.log('solr-proxy: localhost:' + argv.port + ' --> ' + argv.backendHost + ':' + argv.backendPort);
     return;
   }
 }

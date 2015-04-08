@@ -17,12 +17,12 @@ var respondsWith = function(status, solrPath) {
   };
 
   var context = {};
-  context['topic'] = executeRequest;
+  context.topic = executeRequest;
   context['expected response code: ' + status] = function(req, res) {
-    assert.equal(res.statusCode, status, "actual response code: " + res.statusCode +"; url: " + this.uri.href);
-  }
+    assert.equal(res.statusCode, status, 'actual response code: ' + res.statusCode +'; url: ' + this.uri.href);
+  };
   return context;
-}
+};
 
 exports.testProxyBatch = function(proxyUrl, options) {
   // options:
@@ -31,7 +31,8 @@ exports.testProxyBatch = function(proxyUrl, options) {
 
   var proxyRespondsWith = function(status) {
     return respondsWith(status, proxyUrl);
-  }
+  };
+  
   var rv = {
     'POST select':                  proxyRespondsWith(403),
     'GET  select?q=balloon':        proxyRespondsWith(200),
@@ -57,4 +58,4 @@ exports.testProxyBatch = function(proxyUrl, options) {
   }
 
   return rv;
-}
+};

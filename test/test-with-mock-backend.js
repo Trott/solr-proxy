@@ -21,7 +21,7 @@ var startSimpleBackendServer = function(port) {
     res.end();
   });
   server.listen(port);
-}
+};
 
 startSimpleBackendServer(9090);
 var proxy = SolrProxy.start(8008, { backend: { port: 9090}});
@@ -31,4 +31,5 @@ batch.teardown = function () {
     proxy.close();
     server.close();
 };
-suite = vows.describe('test-with-mock-backend').addBatch(batch).export(module);
+
+vows.describe('test-with-mock-backend').addBatch(batch).export(module);
