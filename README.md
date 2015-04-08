@@ -74,6 +74,11 @@ solr-proxy has the following default rules:
 * Block requests with `qt` and `stream.*` query parameters.
 
 
+License
+-------
+
+MIT
+
 Related Reading
 ---------------
 
