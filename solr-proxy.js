@@ -65,8 +65,10 @@ SolrProxy.start = function(port, options) {
   options.backend = extend(defaultOptions.backend, options.backend);
   options = extend(defaultOptions, options);
 
+  port = port || options.listenPort;
+
   var server = createServer(options);
-  server.listen(options.listenPort);
+  server.listen(port);
   return server;
 };
 

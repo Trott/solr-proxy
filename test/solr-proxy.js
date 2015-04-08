@@ -16,6 +16,14 @@ var request = require('request');
 
 var SolrProxy = require('../solr-proxy.js');
 
+var createSolrTestDouble = function (responseCode) {
+    var server = http.createServer(function(req, res) {
+        res.writeHead(responseCode);
+        res.end();
+    });
+    return server.listen(8080);
+};
+
 describe('exports', function () {
     it('should expose a start function', function (done) {
         expect(typeof SolrProxy.start).to.equal('function');
@@ -23,18 +31,46 @@ describe('exports', function () {
     });
 });
 
-describe('proxy server', function () {
+describe('start()', function () {
     var proxy;
-
     var solrTestDouble;
 
-    var createSolrTestDouble = function (responseCode) {
-        var server = http.createServer(function(req, res) {
-            res.writeHead(responseCode);
-            res.end();
+    beforeEach(function (done) {
+        solrTestDouble = createSolrTestDouble(200);
+        done();
+    });
+
+    afterEach(function (done) {
+        proxy.close();
+        solrTestDouble.close();
+        done();
+    });
+
+    it('should start a proxy on specified port if port is specified', function (done) {
+        proxy = SolrProxy.start(9999);
+
+        request
+        .get('http://localhost:9999/solr/select?q=fhqwhagads')
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(200);
+            done();
         });
-        return server.listen(8080);
-    };
+    });
+
+    it('should not start a proxy on the default port if a different port is specified', function (done) {
+        proxy = SolrProxy.start(9999);
+
+        request.get('http://localhost:8008/solr/select?q=fhqwhagads')
+        .on('error', function (err) {
+            expect(err.code).to.equal('ECONNREFUSED');
+            done();
+        });
+    });
+});
+
+describe('proxy server', function () {
+    var proxy;
+    var solrTestDouble;
 
     beforeEach(function (done) {
         proxy = SolrProxy.start();
