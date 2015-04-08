@@ -5,7 +5,7 @@ var http = require('http'),
     url = require('url'),
     optimist = require('optimist'),
     extend = require('util-extend'),
-    SolrProxy = exports;
+    SolrProxy = {};
 
 /*
  * Returns true if the request satisfies the following conditions:
@@ -43,7 +43,7 @@ var createServer = function(options) {
   var proxy = httpProxy.createProxyServer({target: proxyTarget});
 
   proxy.on('error', function(err, req, res) {
-    res.writeHead(502, {  'Content-Type': 'text/plain' });
+    res.writeHead(502, { 'Content-Type': 'text/plain' });
     res.end('Proxy error: ' + err);
   });
 
@@ -61,14 +61,18 @@ var createServer = function(options) {
 };
 
 SolrProxy.start = function(port, options) {
+  options = options || {};
   options.backend = extend(defaultOptions.backend, options.backend);
   options = extend(defaultOptions, options);
 
   var server = createServer(options);
-  server.listen(port);
+  server.listen(options.listenPort);
   return server;
 };
 
+module.exports = SolrProxy;
+
+// TODO: Move all this to a cli module
 // if invoked directly, (eg "node solr-proxy.js"), start automatically
 if (require.main === module) {
   // TODO: refactor these; write tests
@@ -94,6 +98,5 @@ if (require.main === module) {
     };
     SolrProxy.start(argv.port, proxyOptions);
     console.log('solr-proxy: localhost:' + argv.port + ' --> ' + argv.backendHost + ':' + argv.backendPort);
-    return;
   }
 }

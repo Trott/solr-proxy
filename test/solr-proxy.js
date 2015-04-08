@@ -1,0 +1,117 @@
+/*jshint expr: true*/
+
+var Code = require('code'); 
+
+var Lab = require('lab');
+var lab = exports.lab = Lab.script();
+
+var expect = Code.expect;
+var describe = lab.experiment;
+var it = lab.test;
+var beforeEach = lab.beforeEach;
+var afterEach = lab.afterEach;
+
+var http = require('http');
+var request = require('request');
+
+var SolrProxy = require('../solr-proxy.js');
+
+describe('exports', function () {
+    it('should expose a start function', function (done) {
+        expect(typeof SolrProxy.start).to.equal('function');
+        done();
+    });
+});
+
+describe('proxy server', function () {
+    var proxy;
+
+    var solrTestDouble;
+
+    var createSolrTestDouble = function (responseCode) {
+        var server = http.createServer(function(req, res) {
+            res.writeHead(responseCode);
+            res.end();
+        });
+        return server.listen(8080);
+    };
+
+    beforeEach(function (done) {
+        proxy = SolrProxy.start();
+        done();
+    });
+
+    afterEach(function (done) {
+        proxy.close();
+        if (solrTestDouble.close) {
+            solrTestDouble.close();
+        }
+        done();
+    });
+
+    it('should return 502 on proxy error', function (done) {
+        solrTestDouble = createSolrTestDouble('abc');
+
+        request
+        .get('http://localhost:8008/solr/select?q=fhqwhagads')
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(502);
+            done();
+        });
+    });
+
+    it('should return 200 for a valid request', function (done) {
+        solrTestDouble = createSolrTestDouble(200);
+
+        request
+        .get('http://localhost:8008/solr/select?q=fhqwhagads')
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(200);
+            done();
+        });
+    });
+
+    it('should return 403 on POST requests', function (done) {
+        solrTestDouble = createSolrTestDouble(200);
+
+        request
+        .post('http://localhost:8008/solr/select?q=fhqwhagads')
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(403);
+            done();
+        });
+    });
+
+    it('should return 403 on requests for /solr/admin', function (done) {
+        solrTestDouble = createSolrTestDouble(200);
+
+        request
+        .get('http://localhost:8008/solr/admin')
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(403);
+            done();
+        });
+    });
+
+    it('should return 403 on request with qt parameter', function (done) {
+        solrTestDouble = createSolrTestDouble(200);
+
+        request
+        .get('http://localhost:8008/solr/select?q=fhqwhagads&qt=%2Fupdate')
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(403);
+            done();
+        });
+    });
+
+    it('should return 403 on request with stream.url parameter', function (done) {
+        solrTestDouble = createSolrTestDouble(200);
+
+        request
+        .get('http://localhost:8008/solr/select?q=fhqwhagads&stream.url=EVERYBODYTOTHELIMIT!')
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(403);
+            done();
+        });
+    });
+});
