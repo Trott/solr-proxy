@@ -15,7 +15,7 @@
   "main": "solr-proxy.js",
   "scripts": {
     "start": "node solr-proxy.js",
-    "test": "vows test/test-*.js --spec"
+    "test": "lab -t 89 test"
   },
   "bin": "./solr-proxy.js",
   "repository": {
@@ -28,10 +28,11 @@
     "util-extend": "^1.0.1"
   },
   "devDependencies": {
+    "code": "^1.4.0",
     "jshint": "^2.6.3",
+    "lab": "^5.5.1",
     "precommit-hook": "^2.0.1",
-    "request": "^2.55.0",
-    "vows": "^0.8.1"
+    "request": "^2.55.0"
   },
   "engines": {
     "node": ">=0.10.38"
