@@ -22,6 +22,15 @@ var createSolrTestDouble = function (responseCode) {
     return server.listen(8080);
 };
 
+var checkResponseCode = function (url, expectedCode, done) {
+    request
+        .get(url)
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(expectedCode);
+            done();
+        });
+};
+
 describe('exports', function () {
     it('should expose a start function', function (done) {
         expect(typeof SolrProxy.start).to.equal('function');
@@ -46,13 +55,7 @@ describe('start()', function () {
 
     it('should start a proxy on specified port if port is specified', function (done) {
         proxy = SolrProxy.start(9999);
-
-        request
-        .get('http://localhost:9999/solr/select?q=fhqwhagads')
-        .on('response', function (response) {
-            expect(response.statusCode).to.equal(200);
-            done();
-        });
+        checkResponseCode('http://localhost:9999/solr/select?q=fhqwhagads', 200, done);
     });
 
     it('should not start a proxy on the default port if a different port is specified', function (done) {
@@ -68,13 +71,7 @@ describe('start()', function () {
 
     it('should use options if specified', function (done) {
         proxy = SolrProxy.start(null, {validPaths: '/come/on'});
-
-        request
-        .get('http://localhost:8008/come/on?q=fhqwhagads')
-        .on('response', function (response) {
-            expect(response.statusCode).to.equal(200);
-            done();
-        });
+        checkResponseCode('http://localhost:8008/come/on?q=fhqwhagads', 200, done);
     });
 });
 
@@ -97,24 +94,12 @@ describe('proxy server', function () {
 
     it('should return 502 on proxy error', function (done) {
         solrTestDouble = createSolrTestDouble('abc');
-
-        request
-        .get('http://localhost:8008/solr/select?q=fhqwhagads')
-        .on('response', function (response) {
-            expect(response.statusCode).to.equal(502);
-            done();
-        });
+        checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads', 502, done);
     });
 
     it('should return 200 for a valid request', function (done) {
         solrTestDouble = createSolrTestDouble(200);
-
-        request
-        .get('http://localhost:8008/solr/select?q=fhqwhagads')
-        .on('response', function (response) {
-            expect(response.statusCode).to.equal(200);
-            done();
-        });
+        checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads', 200, done);
     });
 
     it('should return 403 on POST requests', function (done) {
@@ -130,34 +115,16 @@ describe('proxy server', function () {
 
     it('should return 403 on requests for /solr/admin', function (done) {
         solrTestDouble = createSolrTestDouble(200);
-
-        request
-        .get('http://localhost:8008/solr/admin')
-        .on('response', function (response) {
-            expect(response.statusCode).to.equal(403);
-            done();
-        });
+        checkResponseCode('http://localhost:8008/solr/admin', 403, done);
     });
 
     it('should return 403 on request with qt parameter', function (done) {
         solrTestDouble = createSolrTestDouble(200);
-
-        request
-        .get('http://localhost:8008/solr/select?q=fhqwhagads&qt=%2Fupdate')
-        .on('response', function (response) {
-            expect(response.statusCode).to.equal(403);
-            done();
-        });
+        checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads&qt=%2Fupdate', 403, done);
     });
 
     it('should return 403 on request with stream.url parameter', function (done) {
         solrTestDouble = createSolrTestDouble(200);
-
-        request
-        .get('http://localhost:8008/solr/select?q=fhqwhagads&stream.url=EVERYBODYTOTHELIMIT!')
-        .on('response', function (response) {
-            expect(response.statusCode).to.equal(403);
-            done();
-        });
+        checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads&stream.url=EVERYBODYTOTHELIMIT!', 403, done);
     });
 });
