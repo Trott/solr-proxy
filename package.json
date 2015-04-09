@@ -12,20 +12,26 @@
   "bugs": {
     "url": "https://github.com/Trott/solr-proxy/issues"
   },
-  "main": "solr-proxy.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node solr-proxy.js",
-    "test": "lab -t 89 test"
+    "test": "lab -t 100 test"
   },
-  "bin": "./solr-proxy.js",
+  "bin": {
+    "solr-proxy": "bin/solr-proxy.js"
+  },
+  "files": [
+    "bin",
+    "index.js",
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Trott/solr-proxy.git"
   },
   "dependencies": {
     "http-proxy": "^1.10.1",
-    "optimist": "^0.6.1",
-    "util-extend": "^1.0.1"
+    "minimist": "^1.1.1",
+    "xtend": "^4.0.0"
   },
   "devDependencies": {
     "code": "^1.4.0",

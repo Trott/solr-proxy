@@ -4,7 +4,7 @@
   "dependencies": {
     "http-proxy": {
       "version": "1.10.1",
-      "from": "http-proxy@*",
+      "from": "http-proxy@>=1.10.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/http-proxy/-/http-proxy-1.10.1.tgz",
       "dependencies": {
         "eventemitter3": {
@@ -21,7 +21,7 @@
     },
     "optimist": {
       "version": "0.6.1",
-      "from": "optimist@*",
+      "from": "optimist@>=0.6.1 <0.7.0",
       "resolved": "https://registry.npmjs.org/optimist/-/optimist-0.6.1.tgz",
       "dependencies": {
         "wordwrap": {
@@ -36,10 +36,10 @@
         }
       }
     },
-    "util-extend": {
-      "version": "1.0.1",
-      "from": "util-extend@",
-      "resolved": "https://registry.npmjs.org/util-extend/-/util-extend-1.0.1.tgz"
+    "xtend": {
+      "version": "4.0.0",
+      "from": "xtend@>=4.0.0 <5.0.0",
+      "resolved": "https://registry.npmjs.org/xtend/-/xtend-4.0.0.tgz"
     }
   }
 }
