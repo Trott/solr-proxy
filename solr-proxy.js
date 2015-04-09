@@ -4,7 +4,7 @@ var http = require('http'),
     httpProxy = require('http-proxy'),
     url = require('url'),
     optimist = require('optimist'),
-    extend = require('util-extend'),
+    extend = require('xtend'),
     SolrProxy = {};
 
 /*

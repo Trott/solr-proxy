@@ -60,9 +60,21 @@ describe('start()', function () {
     it('should not start a proxy on the default port if a different port is specified', function (done) {
         proxy = SolrProxy.start(9999);
 
-        request.get('http://localhost:8008/solr/select?q=fhqwhagads')
+        request
+        .get('http://localhost:8008/solr/select?q=fhqwhagads')
         .on('error', function (err) {
             expect(err.code).to.equal('ECONNREFUSED');
+            done();
+        });
+    });
+
+    it('should use options if specified', function (done) {
+        proxy = SolrProxy.start(null, {validPaths: '/come/on'});
+
+        request
+        .get('http://localhost:8008/come/on?q=fhqwhagads')
+        .on('response', function (response) {
+            expect(response.statusCode).to.equal(200);
             done();
         });
     });

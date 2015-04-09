@@ -15,7 +15,7 @@
   "main": "solr-proxy.js",
   "scripts": {
     "start": "node solr-proxy.js",
-    "test": "lab -t 90 test"
+    "test": "lab -t 91 test"
   },
   "bin": "./solr-proxy.js",
   "repository": {
@@ -25,7 +25,7 @@
   "dependencies": {
     "http-proxy": "^1.10.1",
     "optimist": "^0.6.1",
-    "util-extend": "^1.0.1"
+    "xtend": "^4.0.0"
   },
   "devDependencies": {
     "code": "^1.4.0",
