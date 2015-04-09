@@ -3,7 +3,7 @@ solr-proxy
 
 Reverse proxy to make a Solr instance read-only, rejecting requests that have the potential to modify the Solr index.
 
-This is a clone/rewrite of https://github.com/dergachev/solr-security-proxy with some bug fixes and other changes. Much of the material in this README and many of the tests are taken from that project.
+This is a rewrite of https://github.com/dergachev/solr-security-proxy with some bug fixes and other changes.
 
 [![Build Status](https://secure.travis-ci.org/Trott/solr-proxy.png)](http://travis-ci.org/Trott/solr-proxy)
 
