@@ -12,23 +12,18 @@ var argv = require('../../../lib/cli/argv');
 describe('argv', function () {
 	var noop = function () {};
 
+	var checkForUsageMessage = function(txt) {
+		expect(txt.indexOf('Usage:')).to.equal(0);
+	};
+
 	it('should print help message with --help', function (done) {
-
-		var checkForUsageMessage = function(txt) {
-			expect(txt.indexOf('Usage:')).to.equal(0);
-			done();
-		};
-
 		argv({_: [], help: true}, checkForUsageMessage);
+		done();
 	});
 
 	it('should print help message with -h', function (done) {
-		var checkForUsageMessage = function(txt) {
-			expect(txt.indexOf('Usage:')).to.equal(0);
-			done();
-		};
-
 		argv({_: [], h: true}, checkForUsageMessage);
+		done();
 	});
 
 	it('should start with defaults if no options specified', function (done) {
