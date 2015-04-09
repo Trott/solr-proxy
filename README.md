@@ -34,13 +34,13 @@ solr-proxy
 Options are:
 
 ```
-      --port            Listen on this port                         [default: 8008]
-      --backendPort    Solr backend port                           [default: 8080]
-      --backendHost    Solr backend host                           [default: "localhost"]
-      --validPaths      Only allow these paths (comma separated)    [default: "/solr/select"]
-      --invalidParams   Block these query params (comma separated)  [default: "qt,stream"]
-      --validMethods    Allow only these HTTP methods (comma separated)  [default: "GET"]
-      --help, -h        Show usage
+  --port           Listen on this port                     [default: 8008]
+  --backendPort    Solr backend port                       [default: 8080]
+  --backendHost    Solr backend host                       [default: "localhost"]
+  --validPaths     Allowed paths (comma separated)         [default: "/solr/select"]
+  --invalidParams  Blocked parameters (comma separated)    [default: "qt,stream"]
+  --validMethods   Allowed HTTP methods (comma separated)  [default: "GET,HEAD"]
+  --help, -h       Show this message
 ```
 
 To start the server from your application:
