@@ -14,7 +14,7 @@ var afterEach = lab.afterEach;
 var http = require('http');
 var request = require('request');
 
-var SolrProxy = require('../solr-proxy.js');
+var SolrProxy = require('../index.js');
 
 var createSolrTestDouble = function (responseCode) {
     var server = http.createServer(function(req, res) {
