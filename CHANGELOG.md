@@ -1,0 +1,10 @@
+1.0.1
+=====
+
+* 100% test coverage on `index.js` and `lib/`
+* documentation updates
+
+1.0.0
+=====
+
+* Initial release
