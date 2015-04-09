@@ -1,5 +1,3 @@
-/*jshint expr: true*/
-
 var Code = require('code'); 
 
 var Lab = require('lab');
