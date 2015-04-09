@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "lab -t 91 test"
+    "test": "lab -t 100 test"
   },
   "bin": {
     "solr-proxy": "cli.js"
