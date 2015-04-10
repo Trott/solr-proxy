@@ -1,3 +1,8 @@
+1.1.1
+=====
+
+* fix misformatted usage message
+
 1.1.0
 =====
 
