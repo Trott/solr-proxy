@@ -1,3 +1,8 @@
+1.1.2
+=====
+
+* improved line wrapping for usage message
+
 1.1.1
 =====
 
