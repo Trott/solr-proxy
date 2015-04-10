@@ -24,6 +24,16 @@ describe('argv', function () {
 			argv({_: [], h: true}, checkForUsage);
 			done();
 		});
+
+		it('should print a usage message with lines of 80 chars or less', function (done) {
+			argv({_: [], h: true}, function (txt) {
+				var lines = txt.split('\n');
+				lines.forEach(function (value) {
+					expect(value.length).to.be.below(81);
+				});
+				done();
+			});
+		});
 	});
 
 	describe('version', function () {
