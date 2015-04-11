@@ -65,6 +65,8 @@ var defaultOptions = {
 };
 ```
 
+To enable verbose logging, set environment variable `DEBUG` to include `solr-proxy`.
+
 Default Rules
 -------------
 
