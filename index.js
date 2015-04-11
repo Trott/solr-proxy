@@ -2,6 +2,7 @@ var http = require('http'),
     httpProxy = require('http-proxy'),
     url = require('url'),
     extend = require('xtend'),
+    debug = require('debug')('solr-proxy'),
     SolrProxy = {};
 
 /*
@@ -47,8 +48,10 @@ var createServer = function(options) {
   // adapted from http://git.io/k5dCxQ
   var server = http.createServer(function(request, response) {
     if (validateRequest(request, options)) {
+      debug('ALLOWED: ' + request.method + ' ' + request.url);
       proxy.web(request, response);
     } else {
+      debug('DENIED: ' + request.method + ' ' + request.url);
       response.writeHead(403, 'Illegal request');
       response.write('solrProxy: access denied\n');
       response.end();
