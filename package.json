@@ -7,7 +7,7 @@
     "ajax-solr",
     "proxy"
   ],
-  "version": "1.2.0",
+  "version": "1.2.1-0",
   "author": "Rich Trott <rtrott@gmail.com>",
   "bugs": {
     "url": "https://github.com/Trott/solr-proxy/issues"
