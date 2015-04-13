@@ -7,7 +7,11 @@ var expect = Code.expect;
 var describe = lab.experiment;
 var it = lab.test;
 
+var beforeEach = lab.beforeEach;
+
 var argv = require('../../../lib/cli/argv');
+
+var noop = function () {};
 
 describe('argv', function () {
 	describe('help', function () {
@@ -51,10 +55,41 @@ describe('argv', function () {
 			done();
 		});
 	});
+
+	describe('quiet', function () {
+		var noopProxy = { start: noop };
+
+		var stdoutWriteCount;
+
+		beforeEach(function (done) {
+			stdoutWriteCount = 0;
+			done();
+		});
+
+		var stdoutTestDouble = function () {
+			stdoutWriteCount += 1;
+		};
+
+		it('should not print anything to stdout with --quiet', function (done) {
+			argv({_: [], quiet: true}, stdoutTestDouble, noopProxy);
+			expect(stdoutWriteCount).to.equal(0);
+			done();
+		});
+
+		it('should not print anything to stdout with -q', function (done) {
+			argv({_: [], q: true}, stdoutTestDouble, noopProxy);
+			expect(stdoutWriteCount).to.equal(0);
+			done();
+		});
+
+		it('should print to stdout if no --quiet or -q', function (done) {
+			argv({_: []}, stdoutTestDouble, noopProxy);
+			expect(stdoutWriteCount).to.be.greaterThan(0);
+			done();
+		});
+	});
 		
 	describe('proxy', function () {
-		var noop = function () {};
-
 		it('should start with defaults if no options specified', function (done) {
 			var proxyTestDouble = {
 				start: function (port, options) {
