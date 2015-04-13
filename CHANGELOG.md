@@ -1,3 +1,9 @@
+1.2.0
+=====
+
+* Add quiet mode
+* Add debug loggin capabilities
+
 1.1.2
 =====
 
