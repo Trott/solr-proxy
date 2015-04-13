@@ -2,7 +2,7 @@
 =====
 
 * Add quiet mode
-* Add debug loggin capabilities
+* Add debug logging capabilities
 
 1.1.2
 =====
