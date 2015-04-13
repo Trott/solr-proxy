@@ -40,6 +40,7 @@ Options are:
   --validPaths     Allowed paths (comma separated)         [default: "/solr/select"]
   --invalidParams  Blocked parameters (comma separated)    [default: "qt,stream"]
   --validMethods   Allowed HTTP methods (comma separated)  [default: "GET,HEAD"]
+  --quiet, -q      Do not write messages to STDOUT
   --version, -v    Show version
   --help, -h       Show this message
 ```
