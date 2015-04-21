@@ -26,7 +26,7 @@ var validateRequest = function(request, options) {
 
 var defaultOptions = {
   listenPort: 8008,
-  validHttpMethods: ['GET', 'HEAD'],
+  validHttpMethods: ['GET'],
   validPaths: ['/solr/select'],
   invalidParams: ['qt', 'stream'],
   backend: {

@@ -39,7 +39,7 @@ Options are:
   --backendHost    Solr backend host                       [default: "localhost"]
   --validPaths     Allowed paths (comma separated)         [default: "/solr/select"]
   --invalidParams  Blocked parameters (comma separated)    [default: "qt,stream"]
-  --validMethods   Allowed HTTP methods (comma separated)  [default: "GET,HEAD"]
+  --validMethods   Allowed HTTP methods (comma separated)  [default: "GET"]
   --quiet, -q      Do not write messages to STDOUT
   --version, -v    Show version
   --help, -h       Show this message
@@ -56,7 +56,7 @@ You can pass an options object as the first parameter to `start()`.
 
 ```js
 var defaultOptions = {
-  validHttpMethods: ['GET','HEAD'], // all other HTTP methods will be disallowed
+  validHttpMethods: ['GET'],        // all other HTTP methods will be disallowed
   validPaths: ['/solr/select'],     // all other paths will be denied
   invalidParams: ['qt', 'stream'],  // blocks requests with params qt or stream.* (all other params are allowed)
   backend: {                        // proxy to solr at this location
@@ -73,7 +73,7 @@ Default Rules
 
 solr-proxy has the following default rules:
 
-* Reject any requests other than GET and HEAD
+* Reject any request methods other than GET
 * Only allow the `/solr/select` path
 * Block requests with `qt` and `stream.*` query parameters.
 
