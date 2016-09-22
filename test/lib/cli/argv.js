@@ -94,7 +94,7 @@ describe('argv', function () {
 			var proxyTestDouble = {
 				start: function (port, options) {
 					expect(port).to.be.undefined();
-					expect(options).to.deep.equal({backend: {}});
+					expect(options).to.equal({backend: {}});
 					done();
 				}
 			};
@@ -105,7 +105,7 @@ describe('argv', function () {
 			var proxyTestDouble = {
 				start: function (port, options) {
 					expect(port).to.equal('9999');
-					expect(options).to.deep.equal({
+					expect(options).to.equal({
 						backend: { port: '8888', host: 'example.com'},
 						validHttpMethods: ['DELETE', 'PUT'],
 						invalidParams: ['q'],

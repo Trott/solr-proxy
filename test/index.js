@@ -10,6 +10,7 @@ var beforeEach = lab.beforeEach;
 var afterEach = lab.afterEach;
 
 var http = require('http');
+var net = require('net');
 var request = require('request');
 
 var SolrProxy = require('../index.js');
@@ -93,7 +94,11 @@ describe('proxy server', function () {
     });
 
     it('should return 502 on proxy error', function (done) {
-        solrTestDouble = createSolrTestDouble('abc');
+        var server = net.createServer(function(c) {
+            c.write('abc\r\n');
+            c.end();
+        });
+        solrTestDouble = server.listen(8080);
         checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads', 502, done);
     });
 
