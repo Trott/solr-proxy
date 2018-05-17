@@ -19,23 +19,20 @@ describe('argv', function () {
 			expect(txt.indexOf('Usage:')).to.equal(0);
 		};
 
-		it('should print help message with --help', function (done) {
+		it('should print help message with --help', function () {
 			argv({_: [], help: true}, checkForUsage);
-			done();
 		});
 
-		it('should print help message with -h', function (done) {
+		it('should print help message with -h', function () {
 			argv({_: [], h: true}, checkForUsage);
-			done();
 		});
 
-		it('should print a usage message with lines of 80 chars or less', function (done) {
+		it('should print a usage message with lines of 80 chars or less', function () {
 			argv({_: [], h: true}, function (txt) {
 				var lines = txt.split('\n');
 				lines.forEach(function (value) {
 					expect(value.length).to.be.below(81);
 				});
-				done();
 			});
 		});
 	});
@@ -45,14 +42,12 @@ describe('argv', function () {
 			expect(txt.search(/^\d+\.\d+\.\d+/)).to.equal(0);
 		};
 
-		it('should print the version with --version', function (done) {
+		it('should print the version with --version', function () {
 			argv({_: [], version: true}, checkForVersion);
-			done();
 		});
 
-		it('should print the version with -v', function (done) {
+		it('should print the version with -v', function () {
 			argv({_: [], v: true}, checkForVersion);
-			done();
 		});
 	});
 
@@ -61,47 +56,42 @@ describe('argv', function () {
 
 		var stdoutWriteCount;
 
-		beforeEach(function (done) {
+		beforeEach(function () {
 			stdoutWriteCount = 0;
-			done();
 		});
 
 		var stdoutTestDouble = function () {
 			stdoutWriteCount += 1;
 		};
 
-		it('should not print anything to stdout with --quiet', function (done) {
+		it('should not print anything to stdout with --quiet', function () {
 			argv({_: [], quiet: true}, stdoutTestDouble, noopProxy);
 			expect(stdoutWriteCount).to.equal(0);
-			done();
 		});
 
-		it('should not print anything to stdout with -q', function (done) {
+		it('should not print anything to stdout with -q', function () {
 			argv({_: [], q: true}, stdoutTestDouble, noopProxy);
 			expect(stdoutWriteCount).to.equal(0);
-			done();
 		});
 
-		it('should print to stdout if no --quiet or -q', function (done) {
+		it('should print to stdout if no --quiet or -q', function () {
 			argv({_: []}, stdoutTestDouble, noopProxy);
 			expect(stdoutWriteCount).to.be.greaterThan(0);
-			done();
 		});
 	});
 		
 	describe('proxy', function () {
-		it('should start with defaults if no options specified', function (done) {
+		it('should start with defaults if no options specified', function () {
 			var proxyTestDouble = {
 				start: function (port, options) {
 					expect(port).to.be.undefined();
 					expect(options).to.equal({backend: {}});
-					done();
 				}
 			};
 			argv({_: []}, noop, proxyTestDouble);
 		});
 
-		it('should start with options if specified', function (done) {
+		it('should start with options if specified', function () {
 			var proxyTestDouble = {
 				start: function (port, options) {
 					expect(port).to.equal('9999');
@@ -111,7 +101,6 @@ describe('argv', function () {
 						invalidParams: ['q'],
 						validPaths: ['/come/on', '/fhqwhagads']
 					});
-					done();
 				}
 			};
 

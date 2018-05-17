@@ -12,6 +12,5 @@ var cli = require('../../../lib/cli');
 describe('exports', function () {
     it('should export argv()', function (done) {
         expect(typeof cli.argv).to.equal('function');
-        done();
     });
 });

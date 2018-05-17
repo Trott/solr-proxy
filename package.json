@@ -37,12 +37,12 @@
   },
   "devDependencies": {
     "code": "^3.0.2",
-    "jshint": "^2.6.3",
-    "lab": "^14.3.4",
-    "request": "^2.55.0"
+    "lab": "^15.4.5",
+    "request": "^2.86.0",
+    "request-promise": "^4.2.2"
   },
   "engines": {
-    "node": ">=6.11.1"
+    "node": ">=8.11.2"
   },
   "license": "MIT"
 }
