@@ -42,7 +42,7 @@
     "request": "^2.55.0"
   },
   "engines": {
-    "node": ">=0.10.38"
+    "node": ">=6.11.1"
   },
   "license": "MIT"
 }
