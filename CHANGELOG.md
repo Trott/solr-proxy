@@ -1,3 +1,8 @@
+2.0.0
+=====
+
+* Node.js 8.x and 10.x support. Drop support for earlier versions.
+
 1.2.0
 =====
 
