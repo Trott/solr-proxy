@@ -72,6 +72,9 @@ var defaultOptions = {
 };
 ```
 
+Lastly, `start()` can take a third argument which will be added as a callback on
+the `listening` event.
+
 To enable verbose logging, set environment variable `DEBUG` to include `solr-proxy`.
 
 Default Rules
