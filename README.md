@@ -54,7 +54,9 @@ SolrProxy.start();
 
 You can pass a port number as the first argument to `start()`. You may pass a
 falsy value (such as `null` or `undefined`) if you wish to use the port number
-specified in the options object (second argument).
+specified specified in the `listenPort` property in the options object (second
+argument). If the port is not specified in either argument, the default value of
+`8008` is used.
 
 You can pass an options object as the second argument to `start()`.
 
