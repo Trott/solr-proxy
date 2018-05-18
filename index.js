@@ -60,7 +60,7 @@ var createServer = function(options) {
   return server;
 };
 
-SolrProxy.start = function(port, options, callback) {
+SolrProxy.start = function(port, options) {
   options = options || {};
   options.backend = extend(defaultOptions.backend, options.backend);
   options = extend(defaultOptions, options);
@@ -68,7 +68,7 @@ SolrProxy.start = function(port, options, callback) {
   port = port || options.listenPort;
 
   var server = createServer(options);
-  server.listen(port, callback);
+  server.listen(port);
   return server;
 };
 
