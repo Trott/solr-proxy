@@ -116,7 +116,7 @@ describe('proxy server', function () {
 
     it('should return 403 on requests for /solr/admin', async function () {
         solrTestDouble = createSolrTestDouble(200);
-        checkResponseCode('http://localhost:8008/solr/admin', 403);
+        await checkResponseCode('http://localhost:8008/solr/admin', 403);
     });
 
     it('should return 403 on request with qt parameter', async function () {
