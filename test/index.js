@@ -9,8 +9,11 @@ var it = lab.test;
 var beforeEach = lab.beforeEach;
 var afterEach = lab.afterEach;
 
+var fs = require('fs');
 var http = require('http');
+var https = require('https');
 var net = require('net');
+const { parse } = require('url');
 var util = require('util');
 var request = require('request');
 
@@ -24,13 +27,18 @@ var createSolrTestDouble = function (responseCode) {
     return server.listen(8080);
 };
 
-var checkResponseCode = util.promisify(function (url, expectedCode, done) {
-    request
-        .get(url)
-        .on('response', function (response) {
-            expect(response.statusCode).to.equal(expectedCode);
-            done();
-        });
+var checkResponseCode = util.promisify(function (client, url, expectedCode, done) {
+    const parsed = parse(url);
+    const options = {
+        port: parsed.port,
+        path: parsed.path,
+        rejectUnauthorized: false
+    }
+
+    client.get(options, (res) => {
+        expect(res.statusCode).to.equal(expectedCode);
+        done();
+    });
 });
 
 describe('exports', function () {
@@ -54,7 +62,7 @@ describe('start()', async function () {
 
     it('should start a proxy on specified port if port is specified', async function () {
         proxy = SolrProxy.start(9999);
-        await checkResponseCode('http://localhost:9999/solr/select?q=fhqwhagads', 200);
+        await checkResponseCode(http, 'http://localhost:9999/solr/select?q=fhqwhagads', 200);
     });
 
     it('should not start a proxy on the default port if a different port is specified', util.promisify(function (undefined ,done) {
@@ -70,7 +78,18 @@ describe('start()', async function () {
 
     it('should use options if specified', async function () {
         proxy = SolrProxy.start(null, {validPaths: '/come/on'});
-        await checkResponseCode('http://localhost:8008/come/on?q=fhqwhagads', 200);
+        await checkResponseCode(http, 'http://localhost:8008/come/on?q=fhqwhagads', 200);
+    });
+
+    it('should be able to start with TLS', async function () {
+        var options = {
+            ssl: {
+                key: fs.readFileSync(`${__dirname}/fixtures/test_key.pem`),
+                cert: fs.readFileSync(`${__dirname}/fixtures/test_cert.pem`),
+            }
+        };
+        proxy = SolrProxy.start(null, options);
+        await checkResponseCode(https, 'https://localhost:8008/solr/select?q=fhqwhagads', 200);
     });
 });
 
@@ -95,12 +114,12 @@ describe('proxy server', function () {
             c.end();
         });
         solrTestDouble = server.listen(8080);
-        await checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads', 502);
+        await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads', 502);
     });
 
     it('should return 200 for a valid request', async function () {
         solrTestDouble = createSolrTestDouble(200);
-        await checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads', 200);
+        await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads', 200);
     });
 
     it('should return 403 on POST requests', util.promisify(function (undefined, done) {
@@ -116,16 +135,16 @@ describe('proxy server', function () {
 
     it('should return 403 on requests for /solr/admin', async function () {
         solrTestDouble = createSolrTestDouble(200);
-        await checkResponseCode('http://localhost:8008/solr/admin', 403);
+        await checkResponseCode(http, 'http://localhost:8008/solr/admin', 403);
     });
 
     it('should return 403 on request with qt parameter', async function () {
         solrTestDouble = createSolrTestDouble(200);
-        await checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads&qt=%2Fupdate', 403);
+        await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&qt=%2Fupdate', 403);
     });
 
     it('should return 403 on request with stream.url parameter', async function () {
         solrTestDouble = createSolrTestDouble(200);
-        await checkResponseCode('http://localhost:8008/solr/select?q=fhqwhagads&stream.url=EVERYBODYTOTHELIMIT!', 403);
+        await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&stream.url=EVERYBODYTOTHELIMIT!', 403);
     });
 });
