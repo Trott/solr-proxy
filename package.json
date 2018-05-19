@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "lab -t 100 test"
+    "test": "standard --fix && lab -t 100 test"
   },
   "bin": {
     "solr-proxy": "bin/solr-proxy.js"
@@ -37,7 +37,8 @@
   "devDependencies": {
     "code": "^3.0.2",
     "lab": "^15.4.5",
-    "request": "^2.86.0"
+    "request": "^2.86.0",
+    "standard": "^11.0.1"
   },
   "engines": {
     "node": ">=8.11.2"
