@@ -1,3 +1,8 @@
+2.1.0
+=====
+
+* Add SSL capability to the proxy.
+
 2.0.0
 =====
 
