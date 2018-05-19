@@ -1,5 +1,4 @@
-var http = require('http'),
-    httpProxy = require('http-proxy'),
+var httpProxy = require('http-proxy'),
     url = require('url'),
     extend = require('xtend'),
     debug = require('debug')('solr-proxy'),
@@ -36,17 +35,24 @@ var defaultOptions = {
 };
 
 var createServer = function(options) {
-  var proxyTarget = 'http://' + options.backend.host + ':' + options.backend.port;
-
-  var proxy = httpProxy.createProxyServer({target: proxyTarget});
+  var proxy = httpProxy.createProxyServer({target: options.backend});
 
   proxy.on('error', function(err, req, res) {
     res.writeHead(502, { 'Content-Type': 'text/plain' });
     res.end('Proxy error: ' + err);
   });
 
-  // adapted from http://git.io/k5dCxQ
-  var server = http.createServer(function(request, response) {
+  var createServer;
+  if (options.ssl) {
+    const https = require('https');
+    createServer = (callback) => https.createServer(options.ssl, callback);
+  } else {
+    const http = require('http');
+    createServer = http.createServer;
+  }
+
+  // adapted from https://git.io/k5dCxQ
+  var server = createServer(function(request, response) {
     if (validateRequest(request, options)) {
       debug('ALLOWED: ' + request.method + ' ' + request.url);
       proxy.web(request, response);

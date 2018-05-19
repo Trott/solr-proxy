@@ -72,6 +72,19 @@ var defaultOptions = {
 };
 ```
 
+To enable TLS for your proxy, include an `ssl` object within the `options`
+object.
+
+```js
+var options = {
+  ssl: {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem'),
+  }
+};
+var proxy = SolrProxy.start(null, options);
+```
+
 To enable verbose logging, set environment variable `DEBUG` to include `solr-proxy`.
 
 Default Rules
