@@ -1,3 +1,10 @@
+2.1.1
+=====
+
+* Fix CLI. Shipped without a required library. Whoops. Testing didn't catch it
+  because the required library was in `node_modules` due to a testing
+  dependency.  Ooooooffffff.
+
 2.1.0
 =====
 
