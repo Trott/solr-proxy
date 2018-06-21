@@ -35,8 +35,8 @@
     "xtend": "^4.0.0"
   },
   "devDependencies": {
-    "code": "^3.0.2",
-    "lab": "^15.4.5",
+    "code": "^5.2.0",
+    "lab": "^15.5.0",
     "request": "^2.86.0",
     "standard": "^11.0.1"
   },
