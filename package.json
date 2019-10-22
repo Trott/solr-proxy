@@ -31,15 +31,15 @@
   },
   "dependencies": {
     "@hapi/lab": "^19.1.0",
-    "debug": "^3.1.0",
-    "http-proxy": "^1.10.1",
+    "debug": "^3.2.6",
+    "http-proxy": "^1.18.0",
     "minimist": "^1.2.0",
-    "xtend": "^4.0.0"
+    "xtend": "^4.0.2"
   },
   "devDependencies": {
     "code": "^5.2.4",
-    "dependency-check": "^3.1.0",
-    "request": "^2.86.0",
+    "dependency-check": "^3.4.1",
+    "request": "^2.88.0",
     "standard": "^11.0.1"
   },
   "engines": {
