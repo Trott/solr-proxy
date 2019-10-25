@@ -1,5 +1,5 @@
+var { URL } = require('url')
 var httpProxy = require('http-proxy')
-var url = require('url')
 var extend = require('xtend')
 var debug = require('debug')('solr-proxy')
 var SolrProxy = {}
@@ -11,14 +11,14 @@ var SolrProxy = {}
  *  - All request query params (eg ?q=, ?stream.url=) not in options.invalidParams
  */
 var validateRequest = function (request, options) {
-  var parsedUrl = url.parse(request.url, true)
+  var parsedUrl = new URL(request.url, 'https://www.example.com/')
   var path = parsedUrl.pathname
-  var queryParams = Object.keys(parsedUrl.query)
+  var queryParams = Array.from(parsedUrl.searchParams)
 
   return options.validHttpMethods.indexOf(request.method) !== -1 &&
          options.validPaths.indexOf(path) !== -1 &&
          queryParams.every(function (p) {
-           var paramPrefix = p.split('.')[0] // invalidate not just "stream", but "stream.*"
+           var paramPrefix = p[0].split('.')[0] // invalidate not just "stream", but "stream.*"
            return options.invalidParams.indexOf(paramPrefix) === -1
          })
 }
@@ -35,7 +35,7 @@ var defaultOptions = {
 }
 
 var createServer = function (options) {
-  var proxy = httpProxy.createProxyServer({target: options.backend})
+  var proxy = httpProxy.createProxyServer({ target: options.backend })
 
   proxy.on('error', function (err, req, res) {
     res.writeHead(502, { 'Content-Type': 'text/plain' })

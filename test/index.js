@@ -13,7 +13,7 @@ var fs = require('fs')
 var http = require('http')
 var https = require('https')
 var net = require('net')
-const { parse } = require('url')
+var { URL } = require('url')
 var util = require('util')
 var request = require('request')
 
@@ -28,10 +28,10 @@ var createSolrTestDouble = function (responseCode) {
 }
 
 var checkResponseCode = util.promisify(function (client, url, expectedCode, done) {
-  const parsed = parse(url)
+  const parsed = new URL(url)
   const options = {
     port: parsed.port,
-    path: parsed.path,
+    path: parsed.pathname + parsed.search,
     rejectUnauthorized: false
   }
 
@@ -77,7 +77,7 @@ describe('start()', async function () {
   }))
 
   it('should use options if specified', async function () {
-    proxy = SolrProxy.start(null, {validPaths: '/come/on'})
+    proxy = SolrProxy.start(null, { validPaths: '/come/on' })
     await checkResponseCode(http, 'http://localhost:8008/come/on?q=fhqwhagads', 200)
   })
 

@@ -40,7 +40,7 @@
     "code": "^5.2.4",
     "dependency-check": "^3.4.1",
     "request": "^2.88.0",
-    "standard": "^11.0.1"
+    "standard": "^14.3.1"
   },
   "engines": {
     "node": ">=8.11.2"

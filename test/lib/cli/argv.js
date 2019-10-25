@@ -20,15 +20,15 @@ describe('argv', function () {
     }
 
     it('should print help message with --help', function () {
-      argv({_: [], help: true}, checkForUsage)
+      argv({ _: [], help: true }, checkForUsage)
     })
 
     it('should print help message with -h', function () {
-      argv({_: [], h: true}, checkForUsage)
+      argv({ _: [], h: true }, checkForUsage)
     })
 
     it('should print a usage message with lines of 80 chars or less', function () {
-      argv({_: [], h: true}, function (txt) {
+      argv({ _: [], h: true }, function (txt) {
         var lines = txt.split('\n')
         lines.forEach(function (value) {
           expect(value.length).to.be.below(81)
@@ -43,11 +43,11 @@ describe('argv', function () {
     }
 
     it('should print the version with --version', function () {
-      argv({_: [], version: true}, checkForVersion)
+      argv({ _: [], version: true }, checkForVersion)
     })
 
     it('should print the version with -v', function () {
-      argv({_: [], v: true}, checkForVersion)
+      argv({ _: [], v: true }, checkForVersion)
     })
   })
 
@@ -65,17 +65,17 @@ describe('argv', function () {
     }
 
     it('should not print anything to stdout with --quiet', function () {
-      argv({_: [], quiet: true}, stdoutTestDouble, noopProxy)
+      argv({ _: [], quiet: true }, stdoutTestDouble, noopProxy)
       expect(stdoutWriteCount).to.equal(0)
     })
 
     it('should not print anything to stdout with -q', function () {
-      argv({_: [], q: true}, stdoutTestDouble, noopProxy)
+      argv({ _: [], q: true }, stdoutTestDouble, noopProxy)
       expect(stdoutWriteCount).to.equal(0)
     })
 
     it('should print to stdout if no --quiet or -q', function () {
-      argv({_: []}, stdoutTestDouble, noopProxy)
+      argv({ _: [] }, stdoutTestDouble, noopProxy)
       expect(stdoutWriteCount).to.be.greaterThan(0)
     })
   })
@@ -85,10 +85,10 @@ describe('argv', function () {
       var proxyTestDouble = {
         start: function (port, options) {
           expect(port).to.be.undefined()
-          expect(options).to.equal({backend: {}})
+          expect(options).to.equal({ backend: {} })
         }
       }
-      argv({_: []}, noop, proxyTestDouble)
+      argv({ _: [] }, noop, proxyTestDouble)
     })
 
     it('should start with options if specified', function () {
@@ -96,7 +96,7 @@ describe('argv', function () {
         start: function (port, options) {
           expect(port).to.equal('9999')
           expect(options).to.equal({
-            backend: {port: '8888', host: 'example.com'},
+            backend: { port: '8888', host: 'example.com' },
             validHttpMethods: ['DELETE', 'PUT'],
             invalidParams: ['q'],
             validPaths: ['/come/on', '/fhqwhagads']
