@@ -30,13 +30,13 @@
     "url": "https://github.com/Trott/solr-proxy.git"
   },
   "dependencies": {
-    "@hapi/lab": "^19.1.0",
     "debug": "^3.2.6",
     "http-proxy": "^1.18.0",
     "minimist": "^1.2.0",
     "xtend": "^4.0.2"
   },
   "devDependencies": {
+    "@hapi/lab": "^21.0.0",
     "code": "^5.2.4",
     "dependency-check": "^3.4.1",
     "request": "^2.88.0",
