@@ -38,7 +38,7 @@
   "devDependencies": {
     "@hapi/lab": "^21.0.0",
     "code": "^5.2.4",
-    "dependency-check": "^3.4.1",
+    "dependency-check": "^4.1.0",
     "request": "^2.88.0",
     "standard": "^14.3.1"
   },
