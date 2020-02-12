@@ -15,7 +15,6 @@ var https = require('https')
 var net = require('net')
 var { URL } = require('url')
 var util = require('util')
-var request = require('request')
 
 var SolrProxy = require('../index.js')
 
@@ -68,7 +67,7 @@ describe('start()', async function () {
   it('should not start a proxy on the default port if a different port is specified', util.promisify(function (_, done) {
     proxy = SolrProxy.start(9999)
 
-    request
+    http
       .get('http://localhost:8008/solr/select?q=fhqwhagads')
       .on('error', function (err) {
         expect(err.code).to.equal('ECONNREFUSED')
@@ -125,12 +124,21 @@ describe('proxy server', function () {
   it('should return 403 on POST requests', util.promisify(function (_, done) {
     solrTestDouble = createSolrTestDouble(200)
 
-    request
-      .post('http://localhost:8008/solr/select?q=fhqwhagads')
+    http
+      .request({
+        hostname: 'localhost',
+        port: 8008,
+        path: '/solr/select',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST'
+      })
       .on('response', function (response) {
         expect(response.statusCode).to.equal(403)
         done()
       })
+      .end('{"q": "fhqwhgads"}')
   }))
 
   it('should return 403 on requests for /solr/admin', async function () {
