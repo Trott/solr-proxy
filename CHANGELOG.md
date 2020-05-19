@@ -1,3 +1,8 @@
+2.1.2
+=====
+
+* Update dependencies includeing security fixes. Please update!
+
 2.1.1
 =====
 
