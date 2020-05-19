@@ -1,3 +1,8 @@
+3.0.0
+=====
+
+* Drop support for EOL Node.js 8.x.
+
 2.1.2
 =====
 
