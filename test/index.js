@@ -92,7 +92,7 @@ describe('start()', async function () {
   })
 })
 
-describe('proxy server', function () {
+describe('proxy server defaults', function () {
   var proxy
   var solrTestDouble
 
@@ -154,5 +154,51 @@ describe('proxy server', function () {
   it('should return 403 on request with stream.url parameter', async function () {
     solrTestDouble = createSolrTestDouble(200)
     await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&stream.url=EVERYBODYTOTHELIMIT!', 403)
+  })
+
+  it('should return 403 if rows param exceeds 200 default', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&rows=201', 403)
+  })
+
+  it('should return 200 if rows param does not exceed 200 default', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&rows=199', 200)
+  })
+
+  it('should return permit the query if rows param is not an integer', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&rows=foobar', 200)
+  })
+})
+
+describe('proxy server rows', function () {
+  var proxy
+  var solrTestDouble
+
+  beforeEach(function () {
+    proxy = SolrProxy.start(null, { maxRows: 100 })
+  })
+
+  afterEach(function () {
+    proxy.close()
+    if (solrTestDouble.close) {
+      solrTestDouble.close()
+    }
+  })
+
+  it('should return 403 if rows param exceeds maximum', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&rows=101', 403)
+  })
+
+  it('should return 200 if rows param does not exceed maximum', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&rows=100', 200)
+  })
+
+  it('should return 200 if rows param is unspecified', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads', 200)
   })
 })

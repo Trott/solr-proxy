@@ -99,7 +99,8 @@ describe('argv', function () {
             backend: { port: '8888', host: 'example.com' },
             validHttpMethods: ['DELETE', 'PUT'],
             invalidParams: ['q'],
-            validPaths: ['/come/on', '/fhqwhagads']
+            validPaths: ['/come/on', '/fhqwhagads'],
+            maxRows: 100
           })
         }
       }
@@ -111,7 +112,8 @@ describe('argv', function () {
         backendHost: 'example.com',
         validMethods: 'DELETE,PUT',
         invalidParams: 'q',
-        validPaths: '/come/on,/fhqwhagads'
+        validPaths: '/come/on,/fhqwhagads',
+        maxRows: 100
       }
 
       argv(argvStuff, noop, proxyTestDouble)
