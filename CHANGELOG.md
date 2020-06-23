@@ -1,3 +1,8 @@
+4.0.0
+=====
+
+* Add new option `maxRows` that defaults to `200`.
+
 3.0.0
 =====
 
