@@ -15,12 +15,31 @@ var validateRequest = function (request, options) {
   var path = parsedUrl.pathname
   var queryParams = Array.from(parsedUrl.searchParams)
 
-  return options.validHttpMethods.indexOf(request.method) !== -1 &&
-         options.validPaths.indexOf(path) !== -1 &&
-         queryParams.every(function (p) {
-           var paramPrefix = p[0].split('.')[0] // invalidate not just "stream", but "stream.*"
-           return options.invalidParams.indexOf(paramPrefix) === -1
-         })
+  if (options.validHttpMethods.indexOf(request.method) === -1) {
+    return false
+  }
+
+  if (options.validPaths.indexOf(path) === -1) {
+    return false
+  }
+
+  if (queryParams.some(function (p) {
+    // This function should return "true" for invalid cases. Confusing, I know.
+    var paramPrefix = p[0].split('.')[0] // invalidate not just "stream", but "stream.*"
+
+    if (paramPrefix === 'rows') {
+      var rows = +p[1]
+      if (rows > options.maxRows) {
+        return true
+      }
+    }
+
+    return options.invalidParams.indexOf(paramPrefix) !== -1
+  })) {
+    return false
+  }
+
+  return true
 }
 
 var defaultOptions = {
@@ -31,7 +50,8 @@ var defaultOptions = {
   backend: {
     host: 'localhost',
     port: 8080
-  }
+  },
+  maxRows: 200
 }
 
 var createServer = function (options) {

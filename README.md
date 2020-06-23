@@ -34,12 +34,15 @@ solr-proxy
 Options are:
 
 ```
-  --port           Listen on this port                     [default: 8008]
-  --backendPort    Solr backend port                       [default: 8080]
-  --backendHost    Solr backend host                       [default: "localhost"]
-  --validPaths     Allowed paths (comma separated)         [default: "/solr/select"]
-  --invalidParams  Blocked parameters (comma separated)    [default: "qt,stream"]
-  --validMethods   Allowed HTTP methods (comma separated)  [default: "GET"]
+  --port           Listen on this port                 [default: 8008]
+  --backendPort    Solr backend port                   [default: 8080]
+  --backendHost    Solr backend host                   [default: "localhost"]
+  --validPaths     Allowed paths (comma delimited)     [default: "/solr/select"]
+  --invalidParams  Blocked parameters (comma           [default: "qt,stream"]
+                   delimited)
+  --validMethods   Allowed HTTP methods (comma         [default: "GET"]
+                   delimited)
+  --maxRows        Maximum rows permitted in a request [default: 200]
   --quiet, -q      Do not write messages to STDOUT
   --version, -v    Show version
   --help, -h       Show this message
