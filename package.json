@@ -36,7 +36,7 @@
     "xtend": "^4.0.2"
   },
   "devDependencies": {
-    "@hapi/lab": "^22.0.4",
+    "@hapi/lab": "^23.0.0",
     "code": "^5.2.4",
     "dependency-check": "^4.1.0",
     "standard": "^14.3.1"
