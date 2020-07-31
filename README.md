@@ -34,6 +34,7 @@ solr-proxy
 Options are:
 
 ```
+Options:
   --port           Listen on this port                 [default: 8008]
   --backendPort    Solr backend port                   [default: 8080]
   --backendHost    Solr backend host                   [default: "localhost"]
@@ -43,7 +44,8 @@ Options are:
   --validMethods   Allowed HTTP methods (comma         [default: "GET"]
                    delimited)
   --maxRows        Maximum rows permitted in a request [default: 200]
-  --maxStart       Maximum start offset permitted in a request [default: 1000]
+  --maxStart       Maximum start offset permitted in a [default: 1000]
+                   request
   --quiet, -q      Do not write messages to STDOUT
   --version, -v    Show version
   --help, -h       Show this message
