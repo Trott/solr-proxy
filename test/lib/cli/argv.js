@@ -100,7 +100,8 @@ describe('argv', function () {
             validHttpMethods: ['DELETE', 'PUT'],
             invalidParams: ['q'],
             validPaths: ['/come/on', '/fhqwhagads'],
-            maxRows: 100
+            maxRows: 100,
+            maxStart: 1000
           })
         }
       }
@@ -113,7 +114,8 @@ describe('argv', function () {
         validMethods: 'DELETE,PUT',
         invalidParams: 'q',
         validPaths: '/come/on,/fhqwhagads',
-        maxRows: 100
+        maxRows: 100,
+        maxStart: 1000
       }
 
       argv(argvStuff, noop, proxyTestDouble)

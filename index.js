@@ -34,6 +34,13 @@ var validateRequest = function (request, options) {
       }
     }
 
+    if (paramPrefix === 'start') {
+      var start = +p[1]
+      if (start > options.maxStart) {
+        return true
+      }
+    }
+
     return options.invalidParams.indexOf(paramPrefix) !== -1
   })) {
     return false
@@ -51,7 +58,8 @@ var defaultOptions = {
     host: 'localhost',
     port: 8080
   },
-  maxRows: 200
+  maxRows: 200,
+  maxStart: 1000
 }
 
 var createServer = function (options) {

@@ -161,14 +161,29 @@ describe('proxy server defaults', function () {
     await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&rows=201', 403)
   })
 
+  it('should return 403 if start param exceeds 1000 default', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=1001', 403)
+  })
+
   it('should return 200 if rows param does not exceed 200 default', async function () {
     solrTestDouble = createSolrTestDouble(200)
     await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&rows=199', 200)
   })
 
+  it('should return 200 if start param does not exceed 1000 default', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=999', 200)
+  })
+
   it('should return permit the query if rows param is not an integer', async function () {
     solrTestDouble = createSolrTestDouble(200)
     await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&rows=foobar', 200)
+  })
+
+  it('should return permit the query if start param is not an integer', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=foobar', 200)
   })
 })
 
@@ -198,6 +213,37 @@ describe('proxy server rows', function () {
   })
 
   it('should return 200 if rows param is unspecified', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads', 200)
+  })
+})
+
+describe('proxy server start', function () {
+  var proxy
+  var solrTestDouble
+
+  beforeEach(function () {
+    proxy = SolrProxy.start(null, { maxStart: 1000 })
+  })
+
+  afterEach(function () {
+    proxy.close()
+    if (solrTestDouble.close) {
+      solrTestDouble.close()
+    }
+  })
+
+  it('should return 403 if start param exceeds maximum', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=1001', 403)
+  })
+
+  it('should return 200 if ssstart param does not exceed maximum', async function () {
+    solrTestDouble = createSolrTestDouble(200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=100', 200)
+  })
+
+  it('should return 200 if start param is unspecified', async function () {
     solrTestDouble = createSolrTestDouble(200)
     await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads', 200)
   })
