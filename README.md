@@ -43,6 +43,7 @@ Options are:
   --validMethods   Allowed HTTP methods (comma         [default: "GET"]
                    delimited)
   --maxRows        Maximum rows permitted in a request [default: 200]
+  --maxStart       Maximum start offset permitted in a request [default: 1000]
   --quiet, -q      Do not write messages to STDOUT
   --version, -v    Show version
   --help, -h       Show this message
@@ -88,7 +89,8 @@ var options = {
 var proxy = SolrProxy.start(null, options);
 ```
 
-To enable verbose logging, set environment variable `DEBUG` to include `solr-proxy`.
+To enable verbose logging, set environment variable `DEBUG` to include
+`solr-proxy`.
 
 Default Rules
 -------------
@@ -98,6 +100,8 @@ solr-proxy has the following default rules:
 * Reject any request methods other than GET
 * Only allow the `/solr/select` path
 * Block requests with `qt` and `stream.*` query parameters.
+* Reject requests with `rows` set to more than 200.
+* Reject requests with `start` set to more than 1000.
 
 
 License
