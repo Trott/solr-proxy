@@ -1,3 +1,9 @@
+4.1.0
+=====
+
+* Add new option `maxStart` that defaults to `1000`. (Thanks @tuolumne!)
+* Drop testing for EOL Node.js 13.x.
+
 4.0.0
 =====
 
