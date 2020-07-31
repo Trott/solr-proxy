@@ -1,3 +1,8 @@
+4.1.1
+=====
+
+* Fix alignment for default options in `--help` output.
+
 4.1.0
 =====
 
