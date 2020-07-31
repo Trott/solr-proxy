@@ -223,7 +223,7 @@ describe('proxy server start', function () {
   var solrTestDouble
 
   beforeEach(function () {
-    proxy = SolrProxy.start(null, { maxStart: 1000 })
+    proxy = SolrProxy.start(null, { maxStart: 2000 })
   })
 
   afterEach(function () {
@@ -235,10 +235,10 @@ describe('proxy server start', function () {
 
   it('should return 403 if start param exceeds maximum', async function () {
     solrTestDouble = createSolrTestDouble(200)
-    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=1001', 403)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=2001', 403)
   })
 
-  it('should return 200 if ssstart param does not exceed maximum', async function () {
+  it('should return 200 if start param does not exceed maximum', async function () {
     solrTestDouble = createSolrTestDouble(200)
     await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=100', 200)
   })
