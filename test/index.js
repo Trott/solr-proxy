@@ -240,7 +240,7 @@ describe('proxy server start', function () {
 
   it('should return 200 if start param does not exceed maximum', async function () {
     solrTestDouble = createSolrTestDouble(200)
-    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=100', 200)
+    await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads&start=1001', 200)
   })
 
   it('should return 200 if start param is unspecified', async function () {
