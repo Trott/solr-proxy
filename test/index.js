@@ -46,7 +46,7 @@ describe('exports', function () {
   })
 })
 
-describe('start()', async function () {
+describe('start()', function () {
   var proxy
   var solrTestDouble
 
