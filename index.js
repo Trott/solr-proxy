@@ -1,8 +1,6 @@
-var { URL } = require('url')
 var httpProxy = require('http-proxy')
 var extend = require('xtend')
 var debug = require('debug')('solr-proxy')
-var SolrProxy = {}
 
 /*
  * Returns true if the request satisfies the following conditions:
@@ -94,16 +92,18 @@ var createServer = function (options) {
   return server
 }
 
-SolrProxy.start = function (port, options) {
-  options = options || {}
-  options.backend = extend(defaultOptions.backend, options.backend)
-  options = extend(defaultOptions, options)
+var SolrProxy = {
+  start: function (port, options) {
+    options = options || {}
+    options.backend = extend(defaultOptions.backend, options.backend)
+    options = extend(defaultOptions, options)
 
-  port = port || options.listenPort
+    port = port || options.listenPort
 
-  var server = createServer(options)
-  server.listen(port)
-  return server
+    var server = createServer(options)
+    server.listen(port)
+    return server
+  }
 }
 
 module.exports = SolrProxy
