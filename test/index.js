@@ -13,7 +13,6 @@ var fs = require('fs')
 var http = require('http')
 var https = require('https')
 var net = require('net')
-var { URL } = require('url')
 var util = require('util')
 
 var SolrProxy = require('../index.js')
