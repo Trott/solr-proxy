@@ -22,8 +22,7 @@
   "files": [
     "bin",
     "index.js",
-    "lib",
-    "npm-shrinkwrap.json"
+    "lib"
   ],
   "repository": {
     "type": "git",
