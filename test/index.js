@@ -13,6 +13,7 @@ var fs = require('fs')
 var http = require('http')
 var https = require('https')
 var net = require('net')
+var path = require('path')
 var util = require('util')
 
 var SolrProxy = require('../index.js')
@@ -82,8 +83,8 @@ describe('start()', function () {
   it('should be able to start with TLS', async function () {
     var options = {
       ssl: {
-        key: fs.readFileSync(`${__dirname}/fixtures/test_key.pem`),
-        cert: fs.readFileSync(`${__dirname}/fixtures/test_cert.pem`)
+        key: fs.readFileSync(path.join(__dirname, '/fixtures/test_key.pem')),
+        cert: fs.readFileSync(path.join(__dirname, '/fixtures/test_cert.pem'))
       }
     }
     proxy = SolrProxy.start(null, options)
