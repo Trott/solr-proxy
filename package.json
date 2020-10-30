@@ -41,7 +41,7 @@
     "code": "^5.2.4",
     "dependency-check": "^4.1.0",
     "semantic-release": "^17.1.2",
-    "standard": "^15.0.0"
+    "standard": "^16.0.0"
   },
   "engines": {
     "node": ">=10.18.0"
