@@ -1,32 +1,32 @@
-var Code = require('code')
+const Code = require('code')
 
-var Lab = require('@hapi/lab')
-var lab = exports.lab = Lab.script()
+const Lab = require('@hapi/lab')
+const lab = exports.lab = Lab.script()
 
-var expect = Code.expect
-var describe = lab.experiment
-var it = lab.test
-var beforeEach = lab.beforeEach
-var afterEach = lab.afterEach
+const expect = Code.expect
+const describe = lab.experiment
+const it = lab.test
+const beforeEach = lab.beforeEach
+const afterEach = lab.afterEach
 
-var fs = require('fs')
-var http = require('http')
-var https = require('https')
-var net = require('net')
-var path = require('path')
-var util = require('util')
+const fs = require('fs')
+const http = require('http')
+const https = require('https')
+const net = require('net')
+const path = require('path')
+const util = require('util')
 
-var SolrProxy = require('../index.js')
+const SolrProxy = require('../index.js')
 
-var createSolrTestDouble = function (responseCode) {
-  var server = http.createServer(function (req, res) {
+const createSolrTestDouble = function (responseCode) {
+  const server = http.createServer(function (req, res) {
     res.writeHead(responseCode)
     res.end()
   })
   return server.listen(8080)
 }
 
-var checkResponseCode = util.promisify(function (client, url, expectedCode, done) {
+const checkResponseCode = util.promisify(function (client, url, expectedCode, done) {
   const parsed = new URL(url)
   const options = {
     port: parsed.port,
@@ -47,8 +47,8 @@ describe('exports', function () {
 })
 
 describe('start()', function () {
-  var proxy
-  var solrTestDouble
+  let proxy
+  let solrTestDouble
 
   beforeEach(function () {
     solrTestDouble = createSolrTestDouble(200)
@@ -81,7 +81,7 @@ describe('start()', function () {
   })
 
   it('should be able to start with TLS', async function () {
-    var options = {
+    const options = {
       ssl: {
         key: fs.readFileSync(path.join(__dirname, '/fixtures/test_key.pem')),
         cert: fs.readFileSync(path.join(__dirname, '/fixtures/test_cert.pem'))
@@ -93,8 +93,8 @@ describe('start()', function () {
 })
 
 describe('proxy server defaults', function () {
-  var proxy
-  var solrTestDouble
+  let proxy
+  let solrTestDouble
 
   beforeEach(function () {
     proxy = SolrProxy.start()
@@ -108,7 +108,7 @@ describe('proxy server defaults', function () {
   })
 
   it('should return 502 on proxy error', async function () {
-    var server = net.createServer(function (c) {
+    const server = net.createServer(function (c) {
       c.write('abc\r\n')
       c.end()
     })
@@ -188,8 +188,8 @@ describe('proxy server defaults', function () {
 })
 
 describe('proxy server rows', function () {
-  var proxy
-  var solrTestDouble
+  let proxy
+  let solrTestDouble
 
   beforeEach(function () {
     proxy = SolrProxy.start(null, { maxRows: 100 })
@@ -219,8 +219,8 @@ describe('proxy server rows', function () {
 })
 
 describe('proxy server start', function () {
-  var proxy
-  var solrTestDouble
+  let proxy
+  let solrTestDouble
 
   beforeEach(function () {
     proxy = SolrProxy.start(null, { maxStart: 2000 })

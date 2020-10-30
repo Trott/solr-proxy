@@ -1,21 +1,21 @@
-var Code = require('code')
+const Code = require('code')
 
-var Lab = require('@hapi/lab')
-var lab = exports.lab = Lab.script()
+const Lab = require('@hapi/lab')
+const lab = exports.lab = Lab.script()
 
-var expect = Code.expect
-var describe = lab.experiment
-var it = lab.test
+const expect = Code.expect
+const describe = lab.experiment
+const it = lab.test
 
-var beforeEach = lab.beforeEach
+const beforeEach = lab.beforeEach
 
-var argv = require('../../../lib/cli/argv')
+const argv = require('../../../lib/cli/argv')
 
-var noop = function () {}
+const noop = function () {}
 
 describe('argv', function () {
   describe('help', function () {
-    var checkForUsage = function (txt) {
+    const checkForUsage = function (txt) {
       expect(txt.indexOf('Usage:')).to.equal(0)
     }
 
@@ -29,7 +29,7 @@ describe('argv', function () {
 
     it('should print a usage message with lines of 80 chars or less', function () {
       argv({ _: [], h: true }, function (txt) {
-        var lines = txt.split('\n')
+        const lines = txt.split('\n')
         lines.forEach(function (value) {
           expect(value.length).to.be.below(81)
         })
@@ -38,7 +38,7 @@ describe('argv', function () {
   })
 
   describe('version', function () {
-    var checkForVersion = function (txt) {
+    const checkForVersion = function (txt) {
       expect(txt.search(/^\d+\.\d+\.\d+/)).to.equal(0)
     }
 
@@ -52,15 +52,15 @@ describe('argv', function () {
   })
 
   describe('quiet', function () {
-    var noopProxy = { start: noop }
+    const noopProxy = { start: noop }
 
-    var stdoutWriteCount
+    let stdoutWriteCount
 
     beforeEach(function () {
       stdoutWriteCount = 0
     })
 
-    var stdoutTestDouble = function () {
+    const stdoutTestDouble = function () {
       stdoutWriteCount += 1
     }
 
@@ -82,7 +82,7 @@ describe('argv', function () {
 
   describe('proxy', function () {
     it('should start with defaults if no options specified', function () {
-      var proxyTestDouble = {
+      const proxyTestDouble = {
         start: function (port, options) {
           expect(port).to.be.undefined()
           expect(options).to.equal({ backend: {} })
@@ -92,7 +92,7 @@ describe('argv', function () {
     })
 
     it('should start with options if specified', function () {
-      var proxyTestDouble = {
+      const proxyTestDouble = {
         start: function (port, options) {
           expect(port).to.equal('9999')
           expect(options).to.equal({
@@ -106,7 +106,7 @@ describe('argv', function () {
         }
       }
 
-      var argvStuff = {
+      const argvStuff = {
         _: [],
         port: '9999',
         backendPort: '8888',

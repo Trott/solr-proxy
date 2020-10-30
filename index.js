@@ -1,6 +1,6 @@
-var httpProxy = require('http-proxy')
-var extend = require('xtend')
-var debug = require('debug')('solr-proxy')
+const httpProxy = require('http-proxy')
+const extend = require('xtend')
+const debug = require('debug')('solr-proxy')
 
 /*
  * Returns true if the request satisfies the following conditions:
@@ -8,10 +8,10 @@ var debug = require('debug')('solr-proxy')
  *  - Path (eg. /solr/update) is in options.validPaths
  *  - All request query params (eg ?q=, ?stream.url=) not in options.invalidParams
  */
-var validateRequest = function (request, options) {
-  var parsedUrl = new URL(request.url, 'https://www.example.com/')
-  var path = parsedUrl.pathname
-  var queryParams = Array.from(parsedUrl.searchParams)
+const validateRequest = function (request, options) {
+  const parsedUrl = new URL(request.url, 'https://www.example.com/')
+  const path = parsedUrl.pathname
+  const queryParams = Array.from(parsedUrl.searchParams)
 
   if (options.validHttpMethods.indexOf(request.method) === -1) {
     return false
@@ -23,17 +23,17 @@ var validateRequest = function (request, options) {
 
   if (queryParams.some(function (p) {
     // This function should return "true" for invalid cases. Confusing, I know.
-    var paramPrefix = p[0].split('.')[0] // invalidate not just "stream", but "stream.*"
+    const paramPrefix = p[0].split('.')[0] // invalidate not just "stream", but "stream.*"
 
     if (paramPrefix === 'rows') {
-      var rows = +p[1]
+      const rows = +p[1]
       if (rows > options.maxRows) {
         return true
       }
     }
 
     if (paramPrefix === 'start') {
-      var start = +p[1]
+      const start = +p[1]
       if (start > options.maxStart) {
         return true
       }
@@ -47,7 +47,7 @@ var validateRequest = function (request, options) {
   return true
 }
 
-var defaultOptions = {
+const defaultOptions = {
   listenPort: 8008,
   validHttpMethods: ['GET'],
   validPaths: ['/solr/select'],
@@ -60,15 +60,15 @@ var defaultOptions = {
   maxStart: 1000
 }
 
-var createServer = function (options) {
-  var proxy = httpProxy.createProxyServer({ target: options.backend })
+const createServer = function (options) {
+  const proxy = httpProxy.createProxyServer({ target: options.backend })
 
   proxy.on('error', function (err, req, res) {
     res.writeHead(502, { 'Content-Type': 'text/plain' })
     res.end('Proxy error: ' + err)
   })
 
-  var createServer
+  let createServer
   if (options.ssl) {
     const https = require('https')
     createServer = (callback) => https.createServer(options.ssl, callback)
@@ -78,7 +78,7 @@ var createServer = function (options) {
   }
 
   // adapted from https://git.io/k5dCxQ
-  var server = createServer(function (request, response) {
+  const server = createServer(function (request, response) {
     if (validateRequest(request, options)) {
       debug('ALLOWED: ' + request.method + ' ' + request.url)
       proxy.web(request, response)
@@ -92,7 +92,7 @@ var createServer = function (options) {
   return server
 }
 
-var SolrProxy = {
+const SolrProxy = {
   start: function (port, options) {
     options = options || {}
     options.backend = extend(defaultOptions.backend, options.backend)
@@ -100,7 +100,7 @@ var SolrProxy = {
 
     port = port || options.listenPort
 
-    var server = createServer(options)
+    const server = createServer(options)
     server.listen(port)
     return server
   }

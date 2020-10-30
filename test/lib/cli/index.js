@@ -1,13 +1,13 @@
-var Code = require('code')
+const Code = require('code')
 
-var Lab = require('@hapi/lab')
-var lab = exports.lab = Lab.script()
+const Lab = require('@hapi/lab')
+const lab = exports.lab = Lab.script()
 
-var expect = Code.expect
-var describe = lab.experiment
-var it = lab.test
+const expect = Code.expect
+const describe = lab.experiment
+const it = lab.test
 
-var cli = require('../../../lib/cli')
+const cli = require('../../../lib/cli')
 
 describe('exports', function () {
   it('should export argv()', function (done) {
