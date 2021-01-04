@@ -1,3 +1,19 @@
+# [5.0.0](https://github.com/Trott/solr-proxy/compare/v4.1.1...v5.0.0) (2021-01-04)
+
+
+### config
+
+* use canonical Solr default port for backend ([d581860](https://github.com/Trott/solr-proxy/commit/d5818609380394bd6eb944e340c052f15ab0ff43))
+
+
+### BREAKING CHANGES
+
+* If the "backend" (i.e., Solr server) port is not
+specified, use the default Solr port of 8983 rather than our own default
+of 8080.
+
+Fixes: https://github.com/Trott/solr-proxy/issues/11
+
 4.1.1
 =====
 
