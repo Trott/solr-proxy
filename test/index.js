@@ -23,7 +23,7 @@ const createSolrTestDouble = function (responseCode) {
     res.writeHead(responseCode)
     res.end()
   })
-  return server.listen(8080)
+  return server.listen(8983)
 }
 
 const checkResponseCode = util.promisify(function (client, url, expectedCode, done) {
@@ -112,7 +112,7 @@ describe('proxy server defaults', function () {
       c.write('abc\r\n')
       c.end()
     })
-    solrTestDouble = server.listen(8080)
+    solrTestDouble = server.listen(8983)
     await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads', 502)
   })
 

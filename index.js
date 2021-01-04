@@ -54,7 +54,7 @@ const defaultOptions = {
   invalidParams: ['qt', 'stream'],
   backend: {
     host: 'localhost',
-    port: 8080
+    port: 8983
   },
   maxRows: 200,
   maxStart: 1000
