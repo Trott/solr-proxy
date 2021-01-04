@@ -36,7 +36,7 @@ Options are:
 ```
 Options:
   --port           Listen on this port                 [default: 8008]
-  --backendPort    Solr backend port                   [default: 8080]
+  --backendPort    Solr backend port                   [default: 8983]
   --backendHost    Solr backend host                   [default: "localhost"]
   --validPaths     Allowed paths (comma delimited)     [default: "/solr/select"]
   --invalidParams  Blocked parameters (comma           [default: "qt,stream"]
