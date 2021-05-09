@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/Trott/solr-proxy/compare/v5.0.0...v6.0.0) (2021-05-09)
+
+
+### chore
+
+* drop support for 10.x ([7ba92b6](https://github.com/Trott/solr-proxy/commit/7ba92b67b526a2371a1f5ed703700eb8a594cf62))
+
+
+### BREAKING CHANGES
+
+* drop support for Node.js 10.x
+
 # [5.0.0](https://github.com/Trott/solr-proxy/compare/v4.1.1...v5.0.0) (2021-01-04)
 
 
