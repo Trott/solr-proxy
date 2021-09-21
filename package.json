@@ -37,7 +37,7 @@
   "devDependencies": {
     "@hapi/lab": "^24.1.0",
     "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/git": "^10.0.0",
     "code": "^5.2.4",
     "dependency-check": "^4.1.0",
     "semantic-release": "^18.0.0",
