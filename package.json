@@ -35,10 +35,10 @@
     "xtend": "^4.0.2"
   },
   "devDependencies": {
+    "@hapi/code": "^8.0.3",
     "@hapi/lab": "^24.1.0",
     "@semantic-release/changelog": "^6.0.0",
     "@semantic-release/git": "^10.0.0",
-    "code": "^5.2.4",
     "dependency-check": "^4.1.0",
     "semantic-release": "^18.0.0",
     "standard": "^16.0.0"
