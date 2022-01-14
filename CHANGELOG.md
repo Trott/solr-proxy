@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/Trott/solr-proxy/compare/v6.0.0...v6.0.1) (2022-01-14)
+
+
+### Bug Fixes
+
+* update dependencies ([2ea26a9](https://github.com/Trott/solr-proxy/commit/2ea26a9fd349039da39cfaec2ba546c5791aedc7))
+
 # [6.0.0](https://github.com/Trott/solr-proxy/compare/v5.0.0...v6.0.0) (2021-05-09)
 
 
