@@ -1,5 +1,4 @@
 const httpProxy = require('http-proxy')
-const extend = require('xtend')
 
 // To enable verbose logging, set environment variable:
 //
@@ -98,10 +97,10 @@ const createServer = function (options) {
 }
 
 const SolrProxy = {
-  start: function (port, options) {
-    options = options || {}
-    options.backend = extend(defaultOptions.backend, options.backend)
-    options = extend(defaultOptions, options)
+  start: function (port, options = {}) {
+    for (const option in defaultOptions) {
+      options[option] = options[option] || defaultOptions[option]
+    }
 
     port = port || options.listenPort
 
