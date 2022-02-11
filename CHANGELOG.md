@@ -1,3 +1,16 @@
+# [7.0.0](https://github.com/Trott/solr-proxy/compare/v6.0.1...v7.0.0) (2022-02-11)
+
+
+### chore
+
+* remove debug dependency ([3774dc6](https://github.com/Trott/solr-proxy/commit/3774dc6af0402aea4a9548060cd76935a61ca50e))
+
+
+### BREAKING CHANGES
+
+* Use NODE_DEBUG=solr-proxy instead of DEBUG=solr-proxy
+for verbose output.
+
 ## [6.0.1](https://github.com/Trott/solr-proxy/compare/v6.0.0...v6.0.1) (2022-01-14)
 
 
