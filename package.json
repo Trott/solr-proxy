@@ -29,7 +29,6 @@
     "url": "git://github.com/Trott/solr-proxy.git"
   },
   "dependencies": {
-    "debug": "^4.1.1",
     "http-proxy": "^1.18.1",
     "minimist": "^1.2.0",
     "xtend": "^4.0.2"

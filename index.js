@@ -1,6 +1,10 @@
 const httpProxy = require('http-proxy')
 const extend = require('xtend')
-const debug = require('debug')('solr-proxy')
+
+// To enable verbose logging, set environment variable:
+//
+// $ NODE_DEBUG=solr-proxy solr-proxy
+const debug = require('util').debuglog('solr-proxy')
 
 /*
  * Returns true if the request satisfies the following conditions:
@@ -61,6 +65,7 @@ const defaultOptions = {
 }
 
 const createServer = function (options) {
+  debug('Creating server with options: %j', options)
   const proxy = httpProxy.createProxyServer({ target: options.backend })
 
   proxy.on('error', function (err, req, res) {
