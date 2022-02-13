@@ -29,12 +29,10 @@ const createSolrTestDouble = function (responseCode) {
 const checkResponseCode = util.promisify(function (client, url, expectedCode, done) {
   const parsed = new URL(url)
   const options = {
-    port: parsed.port,
-    path: parsed.pathname + parsed.search,
     rejectUnauthorized: false
   }
 
-  client.get(options, (res) => {
+  client.get(parsed, options, (res) => {
     expect(res.statusCode).to.equal(expectedCode)
     done()
   })
@@ -54,29 +52,35 @@ describe('start()', function () {
     solrTestDouble = createSolrTestDouble(200)
   })
 
-  afterEach(function () {
+  afterEach(async function () {
     proxy.close()
     solrTestDouble.close()
   })
 
   it('should start a proxy on specified port if port is specified', async function () {
-    proxy = SolrProxy.start(9999)
+    proxy = await SolrProxy.start(9999)
     await checkResponseCode(http, 'http://localhost:9999/solr/select?q=fhqwhagads', 200)
   })
 
-  it('should not start a proxy on the default port if a different port is specified', util.promisify(function (_, done) {
-    proxy = SolrProxy.start(9999)
+  it('should not start a proxy on the default port if a different port is specified', async function () {
+    proxy = await SolrProxy.start(9999)
 
-    http
-      .get('http://localhost:8008/solr/select?q=fhqwhagads')
-      .on('error', function (err) {
-        expect(err.code).to.equal('ECONNREFUSED')
-        done()
+    function get () {
+      return new Promise(function (resolve, reject) {
+        const req = http.get('http://localhost:8008/solr/select?q=fhqwhagads', function (res) {
+          reject(new Error('not supposed to get here'))
+        })
+        req.on('error', function (err) {
+          expect(err.code).to.equal('ECONNREFUSED')
+          resolve()
+        })
       })
-  }))
+    }
+    await get()
+  })
 
   it('should use options if specified', async function () {
-    proxy = SolrProxy.start(null, { validPaths: '/come/on' })
+    proxy = await SolrProxy.start(null, { validPaths: '/come/on' })
     await checkResponseCode(http, 'http://localhost:8008/come/on?q=fhqwhagads', 200)
   })
 
@@ -87,7 +91,7 @@ describe('start()', function () {
         cert: fs.readFileSync(path.join(__dirname, '/fixtures/test_cert.pem'))
       }
     }
-    proxy = SolrProxy.start(null, options)
+    proxy = await SolrProxy.start(null, options)
     await checkResponseCode(https, 'https://localhost:8008/solr/select?q=fhqwhagads', 200)
   })
 })
@@ -96,8 +100,8 @@ describe('proxy server defaults', function () {
   let proxy
   let solrTestDouble
 
-  beforeEach(function () {
-    proxy = SolrProxy.start()
+  beforeEach(async function () {
+    proxy = await SolrProxy.start()
   })
 
   afterEach(function () {
@@ -121,7 +125,7 @@ describe('proxy server defaults', function () {
     await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads', 200)
   })
 
-  it('should return 403 on POST requests', util.promisify(function (_, done) {
+  it('should return 404 on POST requests', util.promisify(function (_, done) {
     solrTestDouble = createSolrTestDouble(200)
 
     http
@@ -135,7 +139,7 @@ describe('proxy server defaults', function () {
         method: 'POST'
       })
       .on('response', function (response) {
-        expect(response.statusCode).to.equal(403)
+        expect(response.statusCode).to.equal(404)
         done()
       })
       .end('{"q": "fhqwhgads"}')
@@ -191,8 +195,8 @@ describe('proxy server rows', function () {
   let proxy
   let solrTestDouble
 
-  beforeEach(function () {
-    proxy = SolrProxy.start(null, { maxRows: 100 })
+  beforeEach(async function () {
+    proxy = await SolrProxy.start(null, { maxRows: 100 })
   })
 
   afterEach(function () {
@@ -222,8 +226,8 @@ describe('proxy server start', function () {
   let proxy
   let solrTestDouble
 
-  beforeEach(function () {
-    proxy = SolrProxy.start(null, { maxStart: 2000 })
+  beforeEach(async function () {
+    proxy = await SolrProxy.start(null, { maxStart: 2000 })
   })
 
   afterEach(function () {

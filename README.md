@@ -35,27 +35,28 @@ Options are:
 
 ```
 Options:
-  --port           Listen on this port                 [default: 8008]
-  --backendPort    Solr backend port                   [default: 8983]
-  --backendHost    Solr backend host                   [default: "localhost"]
-  --validPaths     Allowed paths (comma delimited)     [default: "/solr/select"]
-  --invalidParams  Blocked parameters (comma           [default: "qt,stream"]
-                   delimited)
-  --validMethods   Allowed HTTP methods (comma         [default: "GET"]
-                   delimited)
-  --maxRows        Maximum rows permitted in a request [default: 200]
-  --maxStart       Maximum start offset permitted in a [default: 1000]
-                   request
-  --quiet, -q      Do not write messages to STDOUT
-  --version, -v    Show version
-  --help, -h       Show this message
+  --port          Listen on this port         [default: 8008]
+  --upstream      Solr backend                [default: "http://localhost:8983"]
+  --validPaths    Allowed paths (comma        [default: "/solr/select"]
+                  delimited)
+  --invalidParams Blocked parameters (comma   [default: "qt,stream"]
+                  delimited)
+  --validMethods  Allowed HTTP methods (comma [default: "GET"]
+                  delimited)
+  --maxRows       Maximum rows permitted in a [default: 200]
+                  request
+  --maxStart      Maximum start offset        [default: 1000]
+                  permitted in a request
+  --quiet, -q     Do not write messages to STDOUT
+  --version, -v   Show version
+  --help, -h      Show this message
 ```
 
 To start the server from your application:
 
 ```js
-var SolrProxy = require('solr-proxy');
-SolrProxy.start();
+const SolrProxy = require('solr-proxy')
+await SolrProxy.start()
 ```
 
 You can pass a port number as the first argument to `start()`. You may pass a
@@ -67,28 +68,25 @@ argument). If the port is not specified in either argument, the default value of
 You can pass an options object as the second argument to `start()`.
 
 ```js
-var defaultOptions = {
+const defaultOptions = {
   validHttpMethods: ['GET'],        // all other HTTP methods will be disallowed
   validPaths: ['/solr/select'],     // all other paths will be denied
   invalidParams: ['qt', 'stream'],  // blocks requests with params qt or stream.* (all other params are allowed)
-  backend: {                        // proxy to solr at this location
-    host: 'localhost',
-    port: 8080
-  }
-};
+  upstream: 'http://localhost:8008' // proxy to solr at this location
+}
 ```
 
 To enable TLS for your proxy, include an `ssl` object within the `options`
 object.
 
 ```js
-var options = {
+const options = {
   ssl: {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem'),
   }
-};
-var proxy = SolrProxy.start(null, options);
+}
+const proxy = await SolrProxy.start(null, options);
 ```
 
 Default Rules
