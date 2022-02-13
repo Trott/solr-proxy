@@ -1,3 +1,15 @@
+# [8.0.0](https://github.com/Trott/solr-proxy/compare/v7.0.0...v8.0.0) (2022-02-13)
+
+
+### chore
+
+* use fastify proxy ([14af414](https://github.com/Trott/solr-proxy/commit/14af414dd94218e5634ecf8678b4569153adfeeb))
+
+
+### BREAKING CHANGES
+
+* Some options have changed.
+
 # [7.0.0](https://github.com/Trott/solr-proxy/compare/v6.0.1...v7.0.0) (2022-02-11)
 
 
