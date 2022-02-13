@@ -1,9 +1,16 @@
-const httpProxy = require('http-proxy')
+const fastify = require('fastify')
 
 // To enable verbose logging, set environment variable:
 //
 // $ NODE_DEBUG=solr-proxy solr-proxy
 const debug = require('util').debuglog('solr-proxy')
+
+const deny = function (req, res) {
+  debug('DENIED: ' + req.method + ' ' + req.url)
+  // res.writeHead(403, 'Forbidden')
+  // res.write('solrProxy: access denied\n')
+  res.code(403).send('Forbidden')
+}
 
 /*
  * Returns true if the request satisfies the following conditions:
@@ -11,17 +18,13 @@ const debug = require('util').debuglog('solr-proxy')
  *  - Path (eg. /solr/update) is in options.validPaths
  *  - All request query params (eg ?q=, ?stream.url=) not in options.invalidParams
  */
-const validateRequest = function (request, options) {
-  const parsedUrl = new URL(request.url, 'https://www.example.com/')
+const validateRequest = async function (options, req, res) {
+  const parsedUrl = new URL(req.url, 'https://www.example.com/')
   const path = parsedUrl.pathname
   const queryParams = Array.from(parsedUrl.searchParams)
 
-  if (options.validHttpMethods.indexOf(request.method) === -1) {
-    return false
-  }
-
   if (options.validPaths.indexOf(path) === -1) {
-    return false
+    return deny(req, res)
   }
 
   if (queryParams.some(function (p) {
@@ -44,9 +47,8 @@ const validateRequest = function (request, options) {
 
     return options.invalidParams.indexOf(paramPrefix) !== -1
   })) {
-    return false
+    return deny(req, res)
   }
-
   return true
 }
 
@@ -55,49 +57,38 @@ const defaultOptions = {
   validHttpMethods: ['GET'],
   validPaths: ['/solr/select'],
   invalidParams: ['qt', 'stream'],
-  backend: {
-    host: 'localhost',
-    port: 8983
-  },
+  upstream: 'http://localhost:8983',
   maxRows: 200,
   maxStart: 1000
 }
 
 const createServer = function (options) {
   debug('Creating server with options: %j', options)
-  const proxy = httpProxy.createProxyServer({ target: options.backend })
 
-  proxy.on('error', function (err, req, res) {
-    res.writeHead(502, { 'Content-Type': 'text/plain' })
-    res.end('Proxy error: ' + err)
-  })
-
-  let createServer
+  let server
   if (options.ssl) {
-    const https = require('https')
-    createServer = (callback) => https.createServer(options.ssl, callback)
+    server = fastify({ https: options.ssl })
   } else {
-    const http = require('http')
-    createServer = http.createServer
+    server = fastify()
   }
 
-  // adapted from https://git.io/k5dCxQ
-  const server = createServer(function (request, response) {
-    if (validateRequest(request, options)) {
-      debug('ALLOWED: ' + request.method + ' ' + request.url)
-      proxy.web(request, response)
-    } else {
-      debug('DENIED: ' + request.method + ' ' + request.url)
-      response.writeHead(403, 'Illegal request')
-      response.write('solrProxy: access denied\n')
-      response.end()
-    }
+  server.register(require('fastify-http-proxy'), {
+    upstream: options.upstream,
+    httpMethods: options.validHttpMethods,
+    preHandler: validateRequest.bind(null, options)
   })
+
+  server.setErrorHandler(function (err, req, res) {
+    debug('ERROR: ' + err)
+    // Send error response
+    res.status(502).send('Bad gateway')
+  })
+
   return server
 }
 
 const SolrProxy = {
-  start: function (port, options = {}) {
+  start: async function (port, options = {}) {
     for (const option in defaultOptions) {
       options[option] = options[option] || defaultOptions[option]
     }
@@ -105,7 +96,7 @@ const SolrProxy = {
     port = port || options.listenPort
 
     const server = createServer(options)
-    server.listen(port)
+    await server.listen(port)
     return server
   }
 }

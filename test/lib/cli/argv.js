@@ -64,18 +64,18 @@ describe('argv', function () {
       stdoutWriteCount += 1
     }
 
-    it('should not print anything to stdout with --quiet', function () {
-      argv({ _: [], quiet: true }, stdoutTestDouble, noopProxy)
+    it('should not print anything to stdout with --quiet', async function () {
+      await argv({ _: [], quiet: true }, stdoutTestDouble, noopProxy)
       expect(stdoutWriteCount).to.equal(0)
     })
 
-    it('should not print anything to stdout with -q', function () {
-      argv({ _: [], q: true }, stdoutTestDouble, noopProxy)
+    it('should not print anything to stdout with -q', async function () {
+      await argv({ _: [], q: true }, stdoutTestDouble, noopProxy)
       expect(stdoutWriteCount).to.equal(0)
     })
 
-    it('should print to stdout if no --quiet or -q', function () {
-      argv({ _: [] }, stdoutTestDouble, noopProxy)
+    it('should print to stdout if no --quiet or -q', async function () {
+      await argv({ _: [] }, stdoutTestDouble, noopProxy)
       expect(stdoutWriteCount).to.be.greaterThan(0)
     })
   })
@@ -85,7 +85,7 @@ describe('argv', function () {
       const proxyTestDouble = {
         start: function (port, options) {
           expect(port).to.be.undefined()
-          expect(options).to.equal({ backend: {} })
+          expect(options).to.equal({})
         }
       }
       argv({ _: [] }, noop, proxyTestDouble)
@@ -96,7 +96,7 @@ describe('argv', function () {
         start: function (port, options) {
           expect(port).to.equal('9999')
           expect(options).to.equal({
-            backend: { port: '8888', host: 'example.com' },
+            upstream: 'https://example.com:8888',
             validHttpMethods: ['DELETE', 'PUT'],
             invalidParams: ['q'],
             validPaths: ['/come/on', '/fhqwhagads'],
@@ -109,8 +109,7 @@ describe('argv', function () {
       const argvStuff = {
         _: [],
         port: '9999',
-        backendPort: '8888',
-        backendHost: 'example.com',
+        upstream: 'https://example.com:8888',
         validMethods: 'DELETE,PUT',
         invalidParams: 'q',
         validPaths: '/come/on,/fhqwhagads',
