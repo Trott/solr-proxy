@@ -55,7 +55,7 @@ Options:
 To start the server from your application:
 
 ```js
-const SolrProxy = require('solr-proxy')
+import SolrProxy from 'solr-proxy'
 await SolrProxy.start()
 ```
 
@@ -69,10 +69,13 @@ You can pass an options object as the second argument to `start()`.
 
 ```js
 const defaultOptions = {
+  listenPort: 8008,                 // port to use if `port` is unspecified or invalid
   validHttpMethods: ['GET'],        // all other HTTP methods will be disallowed
   validPaths: ['/solr/select'],     // all other paths will be denied
   invalidParams: ['qt', 'stream'],  // blocks requests with params qt or stream.* (all other params are allowed)
-  upstream: 'http://localhost:8008' // proxy to solr at this location
+  upstream: 'http://localhost:8983' // proxy to solr at this location
+  maxRows: 200,                     // maximum number of rows allowed in a request
+  maxStart: 1000                    // maximum start offset allowed in a request
 }
 ```
 
