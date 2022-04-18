@@ -1,11 +1,6 @@
 #!/usr/bin/env node
-
-const cli = require('../lib/cli')
-const argv = require('minimist')(process.argv.slice(2))
-const SolrProxy = require('..')
-
-async function run () {
-  await cli.argv(argv, console.log, SolrProxy)
-}
-
-run()
+import argv from '../lib/cli/argv.js';
+import minimist from 'minimist';
+import SolrProxy from '../index.js';
+const args = minimist(process.argv.slice(2));
+await argv(args, console.log, SolrProxy);
