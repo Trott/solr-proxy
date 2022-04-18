@@ -11,6 +11,19 @@
 * This module is now ESM only.
 * Drop support for Node.js 12.x
 
+# [9.0.0](https://github.com/Trott/solr-proxy/compare/v8.0.0...v9.0.0) (2022-04-18)
+
+
+### Features
+
+* add TypeScript types ([18b3c15](https://github.com/Trott/solr-proxy/commit/18b3c15ff59d035aa715d1edea46c1d7c9d0d4cf))
+
+
+### BREAKING CHANGES
+
+* This module is now ESM only.
+* Drop support for Node.js 12.x
+
 # [8.0.0](https://github.com/Trott/solr-proxy/compare/v7.0.0...v8.0.0) (2022-02-13)
 
 
