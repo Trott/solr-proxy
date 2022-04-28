@@ -1,5 +1,5 @@
 import { fastify } from 'fastify';
-import { fastifyHttpProxy } from 'fastify-http-proxy';
+import { fastifyHttpProxy } from '@fastify/http-proxy';
 import { debuglog } from 'node:util';
 // To enable verbose logging, set environment variable:
 //
