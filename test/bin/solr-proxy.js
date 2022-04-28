@@ -1,9 +1,8 @@
-import Code from '@hapi/code';
 import Lab from '@hapi/lab';
+import assert from 'node:assert';
 import childProcess from 'child_process';
 const lab = Lab.script();
 export { lab };
-const expect = Code.expect;
 const describe = lab.experiment;
 const it = lab.test;
 describe('CLI', function () {
@@ -16,9 +15,9 @@ describe('CLI', function () {
                 subprocess.kill('SIGINT');
             });
             subprocess.once('exit', function (code, signal) {
-                expect(output).to.equal('solr-proxy is running...\n');
-                expect(code).to.equal(null);
-                expect(signal).to.equal('SIGINT');
+                assert.strictEqual(output, 'solr-proxy is running...\n');
+                assert.strictEqual(code, null);
+                assert.strictEqual(signal, 'SIGINT');
                 resolve();
             });
         });

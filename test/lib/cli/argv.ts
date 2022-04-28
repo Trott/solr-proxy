@@ -1,13 +1,13 @@
-import type SolrProxy from '../../../index.js'
-import Code from '@hapi/code'
+import assert from 'node:assert'
 
 import Lab from '@hapi/lab'
+
+import type SolrProxy from '../../../index.js'
 
 import argv from '../../../lib/cli/argv.js'
 const lab = Lab.script()
 export { lab }
 
-const expect = Code.expect
 const describe = lab.experiment
 const it = lab.test
 
@@ -19,7 +19,7 @@ const noopProxy = { start: noop }
 describe('argv', function () {
   describe('help', function () {
     const checkForUsage = function (txt: string): void {
-      expect(txt.indexOf('Usage:')).to.equal(0)
+      assert.strictEqual(txt.indexOf('Usage:'), 0)
     }
 
     it('should print help message with --help', async function () {
@@ -34,7 +34,7 @@ describe('argv', function () {
       await argv({ _: [], h: true }, function (txt: string) {
         const lines = txt.split('\n')
         lines.forEach(function (value) {
-          expect(value.length).to.be.below(81)
+          assert.ok(value.length < 81)
         })
       }, noopProxy as typeof SolrProxy)
     })
@@ -42,7 +42,7 @@ describe('argv', function () {
 
   describe('version', function () {
     const checkForVersion = function (txt: string): void {
-      expect(txt.search(/^\d+\.\d+\.\d+/)).to.equal(0)
+      assert.strictEqual(txt.search(/^\d+\.\d+\.\d+/), 0)
     }
 
     it('should print the version with --version', async function () {
@@ -67,17 +67,17 @@ describe('argv', function () {
 
     it('should not print anything to stdout with --quiet', async function () {
       await argv({ _: [], quiet: true }, stdoutTestDouble, noopProxy as typeof SolrProxy)
-      expect(stdoutWriteCount).to.equal(0)
+      assert.strictEqual(stdoutWriteCount, 0)
     })
 
     it('should not print anything to stdout with -q', async function () {
       await argv({ _: [], q: true }, stdoutTestDouble, noopProxy as typeof SolrProxy)
-      expect(stdoutWriteCount).to.equal(0)
+      assert.strictEqual(stdoutWriteCount, 0)
     })
 
     it('should print to stdout if no --quiet or -q', async function () {
       await argv({ _: [] }, stdoutTestDouble, noopProxy as typeof SolrProxy)
-      expect(stdoutWriteCount).to.be.greaterThan(0)
+      assert.ok(stdoutWriteCount > 0)
     })
   })
 
@@ -85,8 +85,8 @@ describe('argv', function () {
     it('should start with defaults if no options specified', async function () {
       const proxyTestDouble = {
         start: function (port: any, options: any) {
-          expect(port).to.be.undefined()
-          expect(options).to.equal({})
+          assert.strictEqual(port, undefined)
+          assert.deepStrictEqual(options, {})
         }
       }
       await argv({ _: [] }, noop, proxyTestDouble as typeof SolrProxy)
@@ -95,8 +95,8 @@ describe('argv', function () {
     it('should start with options if specified', async function () {
       const proxyTestDouble = {
         start: function (port: any, options: any) {
-          expect(port).to.equal('9999')
-          expect(options).to.equal({
+          assert.strictEqual(port, '9999')
+          assert.deepStrictEqual(options, {
             upstream: 'https://example.com:8888',
             validHttpMethods: ['DELETE', 'PUT'],
             invalidParams: ['q'],

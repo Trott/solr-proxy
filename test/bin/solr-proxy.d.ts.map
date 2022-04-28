@@ -1,1 +1,1 @@
-{"version":3,"file":"solr-proxy.d.ts","sourceRoot":"","sources":["solr-proxy.ts"],"names":[],"mappings":"AACA,OAAO,GAAG,MAAM,WAAW,CAAA;AAG3B,QAAA,MAAM,GAAG,mBAAe,CAAA;AACxB,OAAO,EAAE,GAAG,EAAE,CAAA"}
+{"version":3,"file":"solr-proxy.d.ts","sourceRoot":"","sources":["solr-proxy.ts"],"names":[],"mappings":"AAAA,OAAO,GAAG,MAAM,WAAW,CAAA;AAI3B,QAAA,MAAM,GAAG,mBAAe,CAAA;AACxB,OAAO,EAAE,GAAG,EAAE,CAAA"}

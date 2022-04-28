@@ -1,5 +1,5 @@
-import Code from '@hapi/code';
 import Lab from '@hapi/lab';
+import assert from 'node:assert';
 import fs from 'node:fs';
 import http from 'node:http';
 import https from 'node:https';
@@ -8,7 +8,6 @@ import util from 'node:util';
 import SolrProxy from '../index.js';
 const lab = Lab.script();
 export { lab };
-const expect = Code.expect;
 const describe = lab.experiment;
 const it = lab.test;
 const beforeEach = lab.beforeEach;
@@ -26,13 +25,13 @@ const checkResponseCode = util.promisify(function (client, url, expectedCode, do
         rejectUnauthorized: false
     };
     client.get(parsed, options, (res) => {
-        expect(res.statusCode).to.equal(expectedCode);
+        assert.strictEqual(res.statusCode, expectedCode);
         done();
     });
 });
 describe('exports', function () {
     it('should expose a start function', function () {
-        expect(typeof SolrProxy.start).to.equal('function');
+        assert.strictEqual(typeof SolrProxy.start, 'function');
     });
 });
 describe('start()', function () {
@@ -57,7 +56,7 @@ describe('start()', function () {
                     reject(new Error('not supposed to get here'));
                 });
                 req.on('error', function (err) {
-                    expect(err.code).to.equal('ECONNREFUSED');
+                    assert.strictEqual(err.code, 'ECONNREFUSED');
                     resolve();
                 });
             });
@@ -116,7 +115,7 @@ describe('proxy server defaults', function () {
             method: 'POST'
         })
             .on('response', function (response) {
-            expect(response.statusCode).to.equal(404);
+            assert.strictEqual(response.statusCode, 404);
             done();
         })
             .end('{"q": "fhqwhgads"}');
