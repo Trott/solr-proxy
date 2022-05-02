@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 17.x]
+        node-version: [14.x, 16.x, 17.x, 18.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -26,7 +26,8 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci --ignore-scripts
+    # --legacy-peer-deps needed until we stop using prerelease TypeScript
+    - run: npm ci --ignore-scripts --legacy-peer-deps
     - run: npm run build --if-present
     - run: npm test
       env:
