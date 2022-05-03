@@ -1,3 +1,10 @@
+## [9.0.1](https://github.com/Trott/solr-proxy/compare/v9.0.0...v9.0.1) (2022-05-03)
+
+
+### Bug Fixes
+
+* push update to remove deprecation warning ([d0dfcd1](https://github.com/Trott/solr-proxy/commit/d0dfcd19f2144d54f9c3f059db2623acdae5c1c8))
+
 # [9.0.0](https://github.com/Trott/solr-proxy/compare/v8.0.0...v9.0.0) (2022-04-18)
 
 
