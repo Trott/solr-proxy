@@ -1,17 +1,10 @@
 import assert from 'node:assert'
 
-import Lab from '@hapi/lab'
+import { beforeEach, describe, it } from 'mocha'
 
 import type SolrProxy from '../../../index.js'
 
 import argv from '../../../lib/cli/argv.js'
-const lab = Lab.script()
-export { lab }
-
-const describe = lab.experiment
-const it = lab.test
-
-const beforeEach = lab.beforeEach
 
 const noop = function (): void {}
 const noopProxy = { start: noop }

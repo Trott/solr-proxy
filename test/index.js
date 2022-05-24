@@ -1,17 +1,11 @@
-import Lab from '@hapi/lab';
 import assert from 'node:assert';
 import fs from 'node:fs';
 import http from 'node:http';
 import https from 'node:https';
 import net from 'node:net';
 import util from 'node:util';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import SolrProxy from '../index.js';
-const lab = Lab.script();
-export { lab };
-const describe = lab.experiment;
-const it = lab.test;
-const beforeEach = lab.beforeEach;
-const afterEach = lab.afterEach;
 const createSolrTestDouble = function (responseCode) {
     const server = http.createServer(function (req, res) {
         res.writeHead(responseCode);
@@ -102,7 +96,7 @@ describe('proxy server defaults', function () {
         solrTestDouble = createSolrTestDouble(200);
         await checkResponseCode(http, 'http://localhost:8008/solr/select?q=fhqwhagads', 200);
     });
-    it('should return 404 on POST requests', util.promisify(function (_, done) {
+    it('should return 404 on POST requests', function (done) {
         solrTestDouble = createSolrTestDouble(200);
         http
             .request({
@@ -119,7 +113,7 @@ describe('proxy server defaults', function () {
             done();
         })
             .end('{"q": "fhqwhgads"}');
-    }));
+    });
     it('should return 403 on requests for /solr/admin', async function () {
         solrTestDouble = createSolrTestDouble(200);
         await checkResponseCode(http, 'http://localhost:8008/solr/admin', 403);

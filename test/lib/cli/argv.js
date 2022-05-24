@@ -1,11 +1,6 @@
 import assert from 'node:assert';
-import Lab from '@hapi/lab';
+import { beforeEach, describe, it } from 'mocha';
 import argv from '../../../lib/cli/argv.js';
-const lab = Lab.script();
-export { lab };
-const describe = lab.experiment;
-const it = lab.test;
-const beforeEach = lab.beforeEach;
 const noop = function () { };
 const noopProxy = { start: noop };
 describe('argv', function () {
