@@ -1,12 +1,7 @@
-import Lab from '@hapi/lab'
 import assert from 'node:assert'
 import childProcess from 'child_process'
 
-const lab = Lab.script()
-export { lab }
-
-const describe = lab.experiment
-const it = lab.test
+import { describe, it } from 'mocha'
 
 describe('CLI', function () {
   it('should run', async function () {

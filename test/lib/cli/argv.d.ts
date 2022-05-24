@@ -1,4 +1,2 @@
-import Lab from '@hapi/lab';
-declare const lab: Lab.script.Script;
-export { lab };
+export {};
 //# sourceMappingURL=argv.d.ts.map
