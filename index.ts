@@ -115,7 +115,7 @@ const SolrProxy = {
     port = +port > 0 ? +port : options.listenPort
 
     const server = await createServer(options)
-    await server.listen(port)
+    await server.listen({ port })
     return server
   }
 }
