@@ -4,6 +4,7 @@ import fs from 'fs'
 import minimist from 'minimist'
 
 interface ProxyOptions {
+  listenHost?: string
   upstream?: string
   validHttpMethods?: string[]
   invalidParams?: string[]
@@ -14,6 +15,10 @@ interface ProxyOptions {
 
 const createProxyOptions = function (argv: minimist.ParsedArgs): ProxyOptions {
   const proxyOptions: ProxyOptions = {}
+
+  if (argv.host != null) {
+    proxyOptions.listenHost = argv.host
+  }
 
   if (argv.upstream != null) {
     proxyOptions.upstream = argv.upstream
@@ -46,6 +51,7 @@ export default async function (argv: minimist.ParsedArgs, stdout: Function, prox
   const usageMessage = 'Usage: solr-proxy [options]\n' +
     '\n' +
    'Options:\n' +
+   '--host          Listen on this host         [default: "localhost"]\n' +
    '--port          Listen on this port         [default: 8008]\n' +
    '--upstream      Solr backend                [default: "http://localhost:8983"]\n' +
    '--validPaths    Allowed paths (comma        [default: "/solr/select"]\n' +

@@ -35,6 +35,7 @@ Options are:
 
 ```
 Options:
+  --host          Listen on this host         [default: "localhost"]
   --port          Listen on this port         [default: 8008]
   --upstream      Solr backend                [default: "http://localhost:8983"]
   --validPaths    Allowed paths (comma        [default: "/solr/select"]
