@@ -67,8 +67,11 @@ const createServer = async function (options) {
     return server;
 };
 const SolrProxy = {
+    // TODO: Breaking change: Remove variadic function signature here to match
+    // the fastify@5 listen() signature. Wait until fastify@5 is released.
     start: async function (port, userOptions = {}) {
         const defaultOptions = {
+            listenHost: 'localhost',
             listenPort: 8008,
             validHttpMethods: ['GET'],
             validPaths: ['/solr/select'],
@@ -78,9 +81,10 @@ const SolrProxy = {
             maxStart: 1000
         };
         const options = Object.assign(defaultOptions, userOptions);
+        const host = options.listenHost;
         port = +port > 0 ? +port : options.listenPort;
         const server = await createServer(options);
-        await server.listen({ port });
+        await server.listen({ host, port });
         return server;
     }
 };

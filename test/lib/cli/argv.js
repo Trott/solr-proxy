@@ -70,6 +70,7 @@ describe('argv', function () {
                 start: function (port, options) {
                     assert.strictEqual(port, '9999');
                     assert.deepStrictEqual(options, {
+                        host: '127.0.0.1',
                         upstream: 'https://example.com:8888',
                         validHttpMethods: ['DELETE', 'PUT'],
                         invalidParams: ['q'],
@@ -81,6 +82,7 @@ describe('argv', function () {
             };
             const argvStuff = {
                 _: [],
+                host: '127.0.0.1',
                 port: '9999',
                 upstream: 'https://example.com:8888',
                 validMethods: 'DELETE,PUT',

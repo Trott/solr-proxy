@@ -58,6 +58,7 @@ const validateRequest = async function (options: SolrProxyOptions, req: FastifyR
 }
 
 interface SolrProxyOptions {
+  listenHost: string
   listenPort: number
   validHttpMethods: string[]
   validPaths: string[]
@@ -99,8 +100,11 @@ const createServer = async function (options: SolrProxyOptions): Promise<Fastify
 }
 
 const SolrProxy = {
+  // TODO: Breaking change: Remove variadic function signature here to match
+  // the fastify@5 listen() signature. Wait until fastify@5 is released.
   start: async function (port?: any, userOptions = {} as any) {
     const defaultOptions: SolrProxyOptions = {
+      listenHost: 'localhost',
       listenPort: 8008,
       validHttpMethods: ['GET'],
       validPaths: ['/solr/select'],
@@ -112,10 +116,11 @@ const SolrProxy = {
 
     const options = Object.assign(defaultOptions, userOptions)
 
+    const host = options.listenHost
     port = +port > 0 ? +port : options.listenPort
 
     const server = await createServer(options)
-    await server.listen({ port })
+    await server.listen({ host, port })
     return server
   }
 }

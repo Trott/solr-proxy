@@ -57,6 +57,25 @@ describe('start()', function () {
         }
         await get();
     });
+    it('should start a proxy on specified host if host is specified', async function () {
+        proxy = await SolrProxy.start(undefined, { listenHost: '127.0.0.1' });
+        await checkResponseCode(http, 'http://127.0.0.1:8008/solr/select?q=fhqwhagads', 200);
+    });
+    it('should not start a proxy on the default host if a different host is specified', async function () {
+        proxy = await SolrProxy.start(undefined, { listenHost: '127.0.0.1' });
+        async function get() {
+            return await new Promise(function (resolve, reject) {
+                const req = http.get('http://[::1]:8008/solr/select?q=fhqwhagads', function (res) {
+                    reject(new Error('not supposed to get here'));
+                });
+                req.on('error', function (err) {
+                    assert.strictEqual(err.code, 'ECONNREFUSED');
+                    resolve();
+                });
+            });
+        }
+        await get();
+    });
     it('should use options if specified', async function () {
         proxy = await SolrProxy.start(null, { validPaths: '/come/on' });
         await checkResponseCode(http, 'http://localhost:8008/come/on?q=fhqwhagads', 200);
