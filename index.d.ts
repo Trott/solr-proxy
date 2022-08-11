@@ -2,7 +2,7 @@
 import type { FastifyInstance } from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'node:http';
 declare const SolrProxy: {
-    start: (port?: any, userOptions?: any) => Promise<FastifyInstance<Server, IncomingMessage, ServerResponse, import("fastify").FastifyLoggerInstance, import("fastify").FastifyTypeProviderDefault>>;
+    start: (port?: any, userOptions?: any) => Promise<FastifyInstance<Server, IncomingMessage, ServerResponse, import("fastify").FastifyBaseLogger, import("fastify").FastifyTypeProviderDefault>>;
 };
 export default SolrProxy;
 //# sourceMappingURL=index.d.ts.map
