@@ -1,3 +1,10 @@
+# [9.1.0](https://github.com/Trott/solr-proxy/compare/v9.0.1...v9.1.0) (2022-08-18)
+
+
+### Features
+
+* add `--host` option to help with containers ([8305612](https://github.com/Trott/solr-proxy/commit/830561235e246a22ea815aa5d436cf8a67fa2a7e))
+
 ## [9.0.1](https://github.com/Trott/solr-proxy/compare/v9.0.0...v9.0.1) (2022-05-03)
 
 
