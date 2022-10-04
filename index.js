@@ -21,7 +21,7 @@ const validateRequest = async function (options, req, res) {
     const queryParams = Array.from(parsedUrl.searchParams);
     if (!options.validPaths.includes(path)) {
         await deny(req, res);
-        return false;
+        return undefined;
     }
     if (queryParams.some(function (p) {
         // This function should return "true" for invalid cases. Confusing, I know.
@@ -41,9 +41,7 @@ const validateRequest = async function (options, req, res) {
         return options.invalidParams.includes(paramPrefix);
     })) {
         await deny(req, res);
-        return false;
     }
-    return true;
 };
 const createServer = async function (options) {
     debug('Creating server with options: %j', options);
@@ -61,9 +59,9 @@ const createServer = async function (options) {
     });
     await server.register(fastifyHttpProxy, {
         upstream: options.upstream,
-        httpMethods: options.validHttpMethods,
-        preHandler: validateRequest.bind(null, options)
+        httpMethods: options.validHttpMethods
     });
+    server.addHook('preHandler', validateRequest.bind(null, options));
     return server;
 };
 const SolrProxy = {

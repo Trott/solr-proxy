@@ -21,14 +21,14 @@ const deny = async function (req: FastifyRequest, res: FastifyReply): Promise<vo
  *  - Path (eg. /solr/update) is in options.validPaths
  *  - All request query params (eg ?q=, ?stream.url=) not in options.invalidParams
  */
-const validateRequest = async function (options: SolrProxyOptions, req: FastifyRequest, res: FastifyReply): Promise<boolean> {
+const validateRequest = async function (options: SolrProxyOptions, req: FastifyRequest, res: FastifyReply): Promise<void> {
   const parsedUrl = new URL(req.url, 'https://www.example.com/')
   const path = parsedUrl.pathname
   const queryParams = Array.from(parsedUrl.searchParams)
 
   if (!options.validPaths.includes(path)) {
     await deny(req, res)
-    return false
+    return undefined
   }
 
   if (queryParams.some(function (p) {
@@ -52,9 +52,7 @@ const validateRequest = async function (options: SolrProxyOptions, req: FastifyR
     return options.invalidParams.includes(paramPrefix)
   })) {
     await deny(req, res)
-    return false
   }
-  return true
 }
 
 interface SolrProxyOptions {
@@ -92,9 +90,10 @@ const createServer = async function (options: SolrProxyOptions): Promise<Fastify
 
   await server.register(fastifyHttpProxy, {
     upstream: options.upstream,
-    httpMethods: options.validHttpMethods,
-    preHandler: validateRequest.bind(null, options)
+    httpMethods: options.validHttpMethods
   })
+
+  server.addHook('preHandler', validateRequest.bind(null, options))
 
   return server
 }
