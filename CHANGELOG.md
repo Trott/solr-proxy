@@ -1,3 +1,15 @@
+# [10.0.0](https://github.com/Trott/solr-proxy/compare/v9.1.0...v10.0.0) (2023-09-01)
+
+
+### chore
+
+* update package-lock.json ([fa02764](https://github.com/Trott/solr-proxy/commit/fa02764fb30a775d5792dc18ce4a33b62e36b2aa))
+
+
+### BREAKING CHANGES
+
+* Drop support for versions of Node.js older than 16.x
+
 # [9.1.0](https://github.com/Trott/solr-proxy/compare/v9.0.1...v9.1.0) (2022-08-18)
 
 
